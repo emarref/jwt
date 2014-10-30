@@ -1,0 +1,22 @@
+{
+    "name": "emarref/jwt",
+    "description": "A JWT implementation",
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Malcolm Fell",
+            "email": "emarref@gmail.com"
+        }
+    ],
+    "require": {
+        "ext-openssl": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Emarref\\Jwt\\": "src/"
+        }
+    }
+}
