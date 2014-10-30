@@ -229,7 +229,7 @@ class Jwt
     protected function resolveAlgorithmFromToken(Token $token)
     {
         /** @var Parameter\AlgorithmParameter $algorithm */
-        return $token->getHeader()->findPropertyByName(Parameter\AlgorithmParameter::NAME);
+        return $token->getHeader()->findParameterByName(Parameter\AlgorithmParameter::NAME);
     }
 
     /**
@@ -279,4 +279,4 @@ class Jwt
     {
         // Todo
     }
-} 
+}

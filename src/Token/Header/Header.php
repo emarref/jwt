@@ -31,7 +31,7 @@ class Header implements \JsonSerializable
      */
     public function addCriticalClaim(Claim\ClaimInterface $claim)
     {
-        $criticalParameter = $this->findPropertyByName(Parameter\CriticalParameter::NAME);
+        $criticalParameter = $this->findParameterByName(Parameter\CriticalParameter::NAME);
 
         if (!$criticalParameter) {
             $criticalParameter = new Parameter\CriticalParameter();
@@ -45,7 +45,7 @@ class Header implements \JsonSerializable
      * @param string $name
      * @return Parameter\ParameterInterface|null
      */
-    public function findPropertyByName($name)
+    public function findParameterByName($name)
     {
         foreach ($this->propertyList as $parameter) {
             /** @var Parameter\ParameterInterface $parameter */
@@ -64,4 +64,4 @@ class Header implements \JsonSerializable
     {
         return $this->propertyList->jsonSerialize();
     }
-} 
+}

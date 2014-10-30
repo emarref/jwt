@@ -26,10 +26,26 @@ class Payload implements \JsonSerializable
     }
 
     /**
+     * @param string $name
+     * @return Claim\ClaimInterface|null
+     */
+    public function findClaimByName($name)
+    {
+        foreach ($this->propertyList as $claim) {
+            /** @var Claim\ClaimInterface $claim */
+            if ($claim->getName() === $name) {
+                return $claim;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * @return string
      */
     public function jsonSerialize()
     {
         return $this->propertyList->jsonSerialize();
     }
-} 
+}
