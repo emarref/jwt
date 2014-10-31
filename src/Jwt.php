@@ -138,13 +138,13 @@ class Jwt
      * @param Encryption\StrategyInterface|string|null $encryption
      * @return string
      */
-    public function encode(Token $token, Encryption\StrategyInterface $encryption = null)
+    public function encode(Token $token, $encryption = null)
     {
         if (!$encryption instanceof Encryption\StrategyInterface) {
             $encryption = $this->resolveEncryptionStrategy($encryption);
         }
 
-        $header  = clone $token->getHeader();
+        $header = $token->getHeader();
         $header->setParameter(new Parameter\AlgorithmParameter($encryption->getName()));
         $header = $header->jsonSerialize();
 
@@ -262,7 +262,7 @@ class Jwt
         $decoded = $this->encoder->decode($encoded);
         $array   = json_decode($decoded, true);
 
-        if (!$array) {
+        if (null === $array) {
             throw new \InvalidArgumentException(json_last_error_msg());
         }
 
