@@ -29,7 +29,7 @@ class PropertyList implements \JsonSerializable, \IteratorAggregate
      */
     function jsonSerialize()
     {
-        $properties = [];
+        $properties = new \stdClass();
 
         foreach ($this->properties as $property) {
             $name  = $property->getName();
@@ -39,7 +39,7 @@ class PropertyList implements \JsonSerializable, \IteratorAggregate
                 continue;
             }
 
-            $properties[$name] = $value;
+            $properties->$name = $value;
         }
 
         return json_encode($properties);
