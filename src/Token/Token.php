@@ -2,7 +2,6 @@
 
 namespace Emarref\Jwt\Token;
 
-use Emarref\Jwt\Encryption\Strategy as EncryptionStrategy;
 use Emarref\Jwt\Token\Header;
 use Emarref\Jwt\Token\Payload;
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace Emarref\Jwt\Encryption\Strategy;
+namespace Emarref\Jwt\Encryption;
 
-class Rs384 extends RsaSignature
+class Rs256 extends RsaSignature
 {
-    const NAME = 'RS384';
+    const NAME = 'RS256';
 
     /**
      * @return string
@@ -19,6 +19,6 @@ class Rs384 extends RsaSignature
      */
     public function getAlgorithm()
     {
-        return OPENSSL_ALGO_SHA384;
+        return OPENSSL_ALGO_SHA256;
     }
 }

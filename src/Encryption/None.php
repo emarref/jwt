@@ -1,8 +1,8 @@
 <?php
 
-namespace Emarref\Jwt\Encryption\Strategy;
+namespace Emarref\Jwt\Encryption;
 
-class None implements EncryptionStrategyInterface
+class None implements StrategyInterface
 {
     const NAME = 'NONE';
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace Emarref\Jwt\Encryption\Strategy;
+namespace Emarref\Jwt\Encryption;
 
-abstract class HashHmac implements EncryptionStrategyInterface
+abstract class HashHmac implements StrategyInterface
 {
     /**
      * @var string

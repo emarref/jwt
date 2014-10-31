@@ -1,6 +1,6 @@
 <?php
 
-namespace Emarref\Jwt\Encryption\Strategy;
+namespace Emarref\Jwt\Encryption;
 
 class Hs384 extends HashHmac
 {

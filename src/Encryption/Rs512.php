@@ -1,6 +1,6 @@
 <?php
 
-namespace Emarref\Jwt\Encryption\Strategy;
+namespace Emarref\Jwt\Encryption;
 
 class Rs512 extends RsaSignature
 {

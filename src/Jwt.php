@@ -3,7 +3,7 @@
 namespace Emarref\Jwt;
 
 use Emarref\Jwt\Encoding;
-use Emarref\Jwt\Encryption\Strategy as EncryptionStrategy;
+use Emarref\Jwt\Encryption;
 use Emarref\Jwt\Token\Header\Parameter;
 use Emarref\Jwt\Token\Payload\Claim;
 use Emarref\Jwt\Token\Token;
@@ -50,7 +50,7 @@ class Jwt
     private $claimRegistry;
 
     /**
-     * @var EncryptionStrategy\EncryptionStrategyInterface[]
+     * @var Encryption\StrategyInterface[]
      */
     private $encryptionStrategies = [];
 
@@ -106,23 +106,23 @@ class Jwt
 
     public function initEncryptionStrategies()
     {
-        $this->registerEncryptionStrategy(new EncryptionStrategy\None());
+        $this->registerEncryptionStrategy(new Encryption\None());
     }
 
     /**
-     * @param EncryptionStrategy\EncryptionStrategyInterface $encryptionStrategy
+     * @param Encryption\StrategyInterface $strategy
      * @throws \InvalidArgumentException
      */
-    public function registerEncryptionStrategy(EncryptionStrategy\EncryptionStrategyInterface $encryptionStrategy)
+    public function registerEncryptionStrategy(Encryption\StrategyInterface $strategy)
     {
-        if (isset($this->encryptionStrategies[$encryptionStrategy->getName()])) {
+        if (isset($this->encryptionStrategies[$strategy->getName()])) {
             throw new \InvalidArgumentException(sprintf(
                 'Encryption strategy "%s" is already registered.',
-                $encryptionStrategy->getName()
+                $strategy->getName()
             ));
         }
 
-        $this->encryptionStrategies[$encryptionStrategy->getName()] = $encryptionStrategy;
+        $this->encryptionStrategies[$strategy->getName()] = $strategy;
     }
 
     /**
@@ -135,22 +135,22 @@ class Jwt
 
     /**
      * @param Token $token
-     * @param EncryptionStrategy\EncryptionStrategyInterface|string|null $encryptionStrategy
+     * @param Encryption\StrategyInterface|string|null $encryption
      * @return string
      */
-    public function encode(Token $token, EncryptionStrategy\EncryptionStrategyInterface $encryptionStrategy = null)
+    public function encode(Token $token, Encryption\StrategyInterface $encryption = null)
     {
-        if (!$encryptionStrategy instanceof EncryptionStrategy\EncryptionStrategyInterface) {
-            $encryptionStrategy = $this->resolveEncryptionStrategy($encryptionStrategy);
+        if (!$encryption instanceof Encryption\StrategyInterface) {
+            $encryption = $this->resolveEncryptionStrategy($encryption);
         }
 
         $header  = clone $token->getHeader();
-        $header->setParameter(new Parameter\AlgorithmParameter($encryptionStrategy->getName()));
+        $header->setParameter(new Parameter\AlgorithmParameter($encryption->getName()));
         $header = $header->jsonSerialize();
 
         $payload = $token->getPayload()->jsonSerialize();
 
-        $signature = $encryptionStrategy->encrypt(sprintf(
+        $signature = $encryption->encrypt(sprintf(
             '%s.%s',
             $this->encoder->encode($header),
             $this->encoder->encode($payload)
@@ -165,7 +165,7 @@ class Jwt
 
     /**
      * @param string $encodedToken
-     * @param EncryptionStrategy\EncryptionStrategyInterface|string|null $encryptionStrategy
+     * @param Encryption\StrategyInterface|string|null $encryptionStrategy
      * @param boolean $verify
      * @return Token;
      */
@@ -195,7 +195,7 @@ class Jwt
             throw new \RuntimeException('No algorithm found in header.');
         }
 
-        if (!$encryptionStrategy instanceof EncryptionStrategy\EncryptionStrategyInterface) {
+        if (!$encryptionStrategy instanceof Encryption\StrategyInterface) {
             $encryptionStrategy = $this->resolveEncryptionStrategy($encryptionStrategy ?: $algorithm->getValue());
         }
 
@@ -215,11 +215,11 @@ class Jwt
     }
 
     /**
-     * @return EncryptionStrategy\EncryptionStrategyInterface
+     * @return Encryption\StrategyInterface
      */
     private function getDefaultEncryptionStrategy()
     {
-        return $this->encryptionStrategies[EncryptionStrategy\None::NAME];
+        return $this->encryptionStrategies[Encryption\None::NAME];
     }
 
     /**
@@ -233,22 +233,22 @@ class Jwt
     }
 
     /**
-     * @param string|null $encryptionStrategy
-     * @return EncryptionStrategy\EncryptionStrategyInterface
+     * @param string|null $strategy
+     * @return Encryption\StrategyInterface
      */
-    protected function resolveEncryptionStrategy($encryptionStrategy = null)
+    protected function resolveEncryptionStrategy($strategy = null)
     {
-        if (null === $encryptionStrategy) {
+        if (null === $strategy) {
             return $this->getDefaultEncryptionStrategy();
-        } elseif (!is_string($encryptionStrategy)) {
+        } elseif (!is_string($strategy)) {
             throw new \RuntimeException('Can not determine encryption strategy.');
         }
 
-        if (!isset($this->encryptionStrategies[$encryptionStrategy])) {
-            throw new \RuntimeException(sprintf('Encryption strategy "%s" is not configured.', $encryptionStrategy));
+        if (!isset($this->encryptionStrategies[$strategy])) {
+            throw new \RuntimeException(sprintf('Encryption strategy "%s" is not configured.', $strategy));
         }
 
-        return $this->encryptionStrategies[$encryptionStrategy];
+        return $this->encryptionStrategies[$strategy];
     }
 
     /**

@@ -1,8 +1,8 @@
 <?php
 
-namespace Emarref\Jwt\Encryption\Strategy;
+namespace Emarref\Jwt\Encryption;
 
-interface EncryptionStrategyInterface
+interface StrategyInterface
 {
     /**
      * @return string

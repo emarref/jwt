@@ -1,8 +1,8 @@
 <?php
 
-namespace Emarref\Jwt\Encryption\Strategy;
+namespace Emarref\Jwt\Encryption;
 
-abstract class RsaSignature implements EncryptionStrategyInterface
+abstract class RsaSignature implements StrategyInterface
 {
     /**
      * @var string

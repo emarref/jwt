@@ -1,11 +1,11 @@
 <?php
 
-namespace Emarref\Jwt\Encryption\Strategy;
+namespace Emarref\Jwt\Encryption;
 
-class Hs256 extends HashHmac
+class Hs512 extends HashHmac
 {
-    const NAME      = 'HS256';
-    const ALGORITHM = 'sha256';
+    const NAME      = 'HS512';
+    const ALGORITHM = 'sha512';
 
     /**
      * @return string
