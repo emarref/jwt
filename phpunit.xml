@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- vim: set ts=4 sw=4 et : -->
+<phpunit>
+    <testsuite name="unit">
+        <directory suffix=".php">test</directory>
+    </testsuite>
+    <filter>
+        <blacklist>
+            <directory>vendor</directory>
+        </blacklist>
+    </filter>
+</phpunit>
