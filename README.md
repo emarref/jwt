@@ -2,9 +2,11 @@
 
 Intended to eventually be a full implementation of the JWT standard.
 
-[https://tools.ietf.org/html/draft-ietf-jose-json-web-encryption-36](https://tools.ietf.org/html/draft-ietf-jose-json-web-encryption-36)  
-[https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-36](https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-36)  
-[https://tools.ietf.org/html/draft-ietf-jose-json-web-signature-36](https://tools.ietf.org/html/draft-ietf-jose-json-web-signature-36)
+[JSON Web Token (JWT)](https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-30)
+[JSON Web Encryption (JWE)](https://tools.ietf.org/html/draft-ietf-jose-json-web-encryption-36)
+[JSON Web Signature (JWS)](https://tools.ietf.org/html/draft-ietf-jose-json-web-signature-36)
+[JSON Web Algorithms (JWA)](https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-36)
+[JSON Web Key (JWK)](https://tools.ietf.org/html/draft-ietf-jose-json-web-key-36)
 
 ### More info
 
