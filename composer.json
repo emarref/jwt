@@ -11,8 +11,8 @@
             "email": "emarref@gmail.com"
         }
     ],
-    "require": {
-        "ext-openssl": "*"
+    "suggest": {
+        "ext-openssl": "Enables more token encryption options"
     },
     "config": {
         "bin-dir": "bin"
