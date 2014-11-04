@@ -15,21 +15,22 @@ Intended to eventually be a full implementation of the JWT standard.
 
 ### Functional example
 
-```php
+```
 require_once 'vendor/autoload.php';
 
-use Emarref\Jwt\Encryption\Strategy as EncryptionStrategy;
-use Emarref\Jwt\Token\Header\Parameter;
-use Emarref\Jwt\Token\Payload\Claim;
+$jwt = new \Emarref\Jwt\Jwt();
 
-$jwt = new Emarref\Jwt\Jwt();
-$jwt->registerEncryptionStrategy(new EncryptionStrategy\Hs256('secret'));
-$token = $jwt->createToken();
-$token->addClaim(new Claim\IssuerClaim('joe'));
-$encodedToken = $jwt->encode($token);
-$decodedToken = $jwt->decode($encodedToken);
+$token = new \Emarref\Jwt\Token();
+$token->addClaim(new \Emarref\Jwt\Claim\Issuer('uri://foobar'));
+$token->addClaim(new \Emarref\Jwt\Claim\Expiration(new \DateTime('30 minutes')));
 
-var_dump($encodedToken);
-var_dump($decodedToken->getHeader()->findParameterByName(Parameter\AlgorithmParameter::NAME)->getValue());
-var_dump($decodedToken->getPayload()->findClaimByName(Claim\IssuerClaim::NAME)->getValue());
+$encodedToken = $jwt->serialize($token, new \Emarref\Jwt\Algorithm\Hs256('verysecret'));
+// -> eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ1cmk6XC9cL2Zvb2JhciIsImV4cCI6MTQxNTA3MTMxNX0.mf2LLMA1fzd04L5438JcBwWyx9l7rY1_mHBiwrOxpDs
+
+$token = $jwt->deserialize('eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ1cmk6XC9cL2Zvb2JhciIsImV4cCI6MTQxNTA3MTMxNX0.mf2LLMA1fzd04L5438JcBwWyx9l7rY1_mHBiwrOxpDs');
+$context = new \Emarref\Jwt\Verification\Context();
+$context->setAlgorithm(new \Emarref\Jwt\Algorithm\Hs256('verysecret'));
+$context->setIssuer('uri://foobar');
+var_dump($jwt->verify($token, $context));
+// -> bool(true)
 ```
