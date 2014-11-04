@@ -71,6 +71,7 @@ class Jwt
             new Verification\AudienceVerifier($context->getAudience()),
             new Verification\ExpirationVerifier(),
             new Verification\IssuerVerifier($context->getIssuer()),
+            new Verification\NotBeforeVerifier(),
         ];
     }
 

@@ -7,7 +7,7 @@ class Factory
     /**
      * @var string
      */
-    private static $privateClaimClass = 'Emarref\Jwt\Claim\Private';
+    private static $privateClaimClass = 'Emarref\Jwt\Claim\PrivateClaim';
 
     /**
      * @var array
