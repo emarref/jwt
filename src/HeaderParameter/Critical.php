@@ -2,7 +2,7 @@
 
 namespace Emarref\Jwt\HeaderParameter;
 
-use Emarref\Jwt\Claim\ClaimInterface;
+use Emarref\Jwt\Claim;
 
 /**
  * "crit" (Critical) Header Parameter
@@ -39,13 +39,26 @@ class Critical extends AbstractParameter
     }
 
     /**
-     * @param ClaimInterface $claim
+     * @param array $value
      */
-    public function addClaim(ClaimInterface $claim)
+    public function setValue($value)
     {
-        if (!in_array($claim->getName(), $this->getValue())) {
-            $value = $this->getValue();
-            $value[] = $claim->getName();
+        if (!is_array($value)) {
+            $value = [$value];
+        }
+
+        parent::setValue($value);
+    }
+
+    /**
+     * @param ParameterInterface $parameter
+     */
+    public function addParameter(ParameterInterface $parameter)
+    {
+        $value = $this->getValue();
+
+        if (!in_array($parameter->getName(), $value)) {
+            $value[] = $parameter->getName();
             $this->setValue($value);
         }
     }
@@ -57,4 +70,4 @@ class Critical extends AbstractParameter
     {
         return self::NAME;
     }
-} 
+}
