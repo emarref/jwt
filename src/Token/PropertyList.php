@@ -17,6 +17,14 @@ class PropertyList implements \JsonSerializable, \IteratorAggregate
     }
 
     /**
+     * @param string $name
+     */
+    public function removeProperty($name)
+    {
+        unset($this->properties[$name]);
+    }
+
+    /**
      * @param PropertyInterface $property
      */
     public function setProperty(PropertyInterface $property)

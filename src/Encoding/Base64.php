@@ -2,7 +2,7 @@
 
 namespace Emarref\Jwt\Encoding;
 
-class Base64
+class Base64 implements EncoderInterface
 {
     /**
      * @var boolean
@@ -110,4 +110,4 @@ class Base64
 
         return $decoded;
     }
-} 
+}
