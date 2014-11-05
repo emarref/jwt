@@ -4,7 +4,6 @@ namespace Emarref\Jwt\Serialization;
 
 use Emarref\Jwt\Claim;
 use Emarref\Jwt\Encoding;
-use Emarref\Jwt\Encryption;
 use Emarref\Jwt\HeaderParameter;
 use Emarref\Jwt\Token;
 
@@ -16,11 +15,28 @@ class Compact implements SerializerInterface
     private $encoding;
 
     /**
-     * @param Encoding\EncoderInterface        $encoding
+     * @var HeaderParameter\Factory
      */
-    public function __construct(Encoding\EncoderInterface $encoding)
-    {
-        $this->encoding   = $encoding;
+    private $headerParameterFactory;
+
+    /**
+     * @var Claim\Factory
+     */
+    private $claimFactory;
+
+    /**
+     * @param Encoding\EncoderInterface $encoding
+     * @param HeaderParameter\Factory $headerParameterFactory
+     * @param Claim\Factory $claimFactory
+     */
+    public function __construct(
+        Encoding\EncoderInterface $encoding,
+        HeaderParameter\Factory $headerParameterFactory,
+        Claim\Factory $claimFactory
+    ) {
+        $this->encoding               = $encoding;
+        $this->headerParameterFactory = $headerParameterFactory;
+        $this->claimFactory           = $claimFactory;
     }
 
     /**
@@ -29,12 +45,11 @@ class Compact implements SerializerInterface
      */
     protected function parseHeaders($headersJson)
     {
-        $factory = new HeaderParameter\Factory();
         $parameters = [];
         $headers = json_decode($headersJson, true);
 
         foreach ($headers as $name => $value) {
-            $parameter = $factory->get($name);
+            $parameter = $this->headerParameterFactory->get($name);
             $parameter->setValue($value);
             $parameters[] = $parameter;
         }
@@ -48,12 +63,11 @@ class Compact implements SerializerInterface
      */
     protected function parsePayload($payloadJson)
     {
-        $factory = new Claim\Factory();
         $claims = [];
         $payload = json_decode($payloadJson, true);
 
         foreach ($payload as $name => $value) {
-            $claim = $factory->get($name);
+            $claim = $this->claimFactory->get($name);
             $claim->setValue($value);
             $claims[] = $claim;
         }

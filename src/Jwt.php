@@ -29,7 +29,11 @@ class Jwt
      */
     public function deserialize($jwt)
     {
-        $serialization = new Serialization\Compact($this->encoder);
+        $serialization = new Serialization\Compact(
+            $this->encoder,
+            new HeaderParameter\Factory(),
+            new Claim\Factory()
+        );
 
         return $serialization->deserialize($jwt);
     }
@@ -43,7 +47,13 @@ class Jwt
     {
         $this->sign($token, $algorithm);
 
-        return (new Serialization\Compact($this->encoder))->serialize($token);
+        $serialization = new Serialization\Compact(
+            $this->encoder,
+            new HeaderParameter\Factory(),
+            new Claim\Factory()
+        );
+
+        return $serialization->serialize($token);
     }
 
     /**
