@@ -17,17 +17,27 @@ class AlgorithmVerifier implements VerifierInterface
     private $algorithm;
 
     /**
+     * @var string
+     */
+    private $verificationKey;
+
+    /**
      * @var Encoding\EncoderInterface
      */
     private $encoder;
 
     /**
      * @param Algorithm\AlgorithmInterface $algorithm
+     * @param string                       $verificationKey
      * @param Encoding\EncoderInterface    $encoder
      */
-    public function __construct(Algorithm\AlgorithmInterface $algorithm, Encoding\EncoderInterface $encoder)
+    public function __construct(
+        Algorithm\AlgorithmInterface $algorithm,
+        $verificationKey,
+        Encoding\EncoderInterface $encoder)
     {
         $this->algorithm = $algorithm;
+        $this->verificationKey = $verificationKey;
         $this->encoder   = $encoder;
     }
 
@@ -52,9 +62,17 @@ class AlgorithmVerifier implements VerifierInterface
             ));
         }
 
-        $signer = new Signature\Jws($this->algorithm, $this->encoder);
+        $jsonHeader    = $token->getHeader()->getParameters()->jsonSerialize();
+        $encodedHeader = $this->encoder->encode($jsonHeader);
 
-        if ($token->getSignature() !== $signer->computeSignature($token)) {
+        $jsonPayload    = $token->getPayload()->getClaims()->jsonSerialize();
+        $encodedPayload = $this->encoder->encode($jsonPayload);
+
+        $message = sprintf("%s.%s", $encodedHeader, $encodedPayload);
+
+        $signatureValid = $this->algorithm->check($message, $token->getSignature(), $this->verificationKey);
+
+        if (!$signatureValid) {
             throw new VerificationException('Token signature is invalid.');
         }
     }

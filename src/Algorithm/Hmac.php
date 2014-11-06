@@ -4,18 +4,8 @@ namespace Emarref\Jwt\Algorithm;
 
 abstract class Hmac implements AlgorithmInterface
 {
-    /**
-     * @var string
-     */
-    private $secret;
-
-    /**
-     * @param string $secret
-     */
-    public function __construct($secret)
+    public function __construct()
     {
-        $this->secret = $secret;
-
         $this->ensureSupport();
     }
 
@@ -43,12 +33,22 @@ abstract class Hmac implements AlgorithmInterface
     }
 
     /**
-     * @param string $value
+     * @param $message
+     * @param $secret
      * @return string
      */
-    public function compute($value)
-    {
-        return hash_hmac($this->getAlgorithm(), $value, $this->secret, true);
+    public function sign($message, $secret) {
+        return hash_hmac($this->getAlgorithm(), $message, $secret, true);
+    }
+
+    /**
+     * @param $message
+     * @param $signature
+     * @param $secret
+     * @return boolean
+     */
+    public function check($message, $signature, $secret) {
+        return hash_hmac($this->getAlgorithm(), $message, $secret, true) == $signature;
     }
 
     /**

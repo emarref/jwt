@@ -10,11 +10,23 @@ abstract class EcdSa implements AlgorithmInterface
     }
 
     /**
-     * @param string $value
+     * @param $message
+     * @param $key
      * @return string
      */
-    public function compute($value)
-    {
-        // Noop
+    public function sign($message, $key) {
+        // noop
     }
+
+    /**
+     * @param $message
+     * @param $signature
+     * @param $key
+     * @return boolean
+     */
+    public function check($message, $signature, $key) {
+        // noop
+    }
+
+
 } 

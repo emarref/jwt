@@ -25,7 +25,22 @@ class Jws implements SignerInterface
         $this->encoder   = $encoder;
     }
 
-    public function computeSignature(Token $token)
+    /**
+     * @param Token $token
+     * @param string $signingKey
+     * @return string
+     */
+    public function computeSignature(Token $token, $signingKey)
+    {
+        $messageToSign = $this->getUnencryptedSignature($token);
+        return $this->algorithm->sign($messageToSign, $signingKey);
+    }
+
+    /**
+     * @param Token $token
+     * @return string
+     */
+    public function getUnencryptedSignature(Token $token)
     {
         $jsonHeader    = $token->getHeader()->getParameters()->jsonSerialize();
         $encodedHeader = $this->encoder->encode($jsonHeader);
@@ -33,15 +48,18 @@ class Jws implements SignerInterface
         $jsonPayload    = $token->getPayload()->getClaims()->jsonSerialize();
         $encodedPayload = $this->encoder->encode($jsonPayload);
 
-        $rawSignature = sprintf('%s.%s', $encodedHeader, $encodedPayload);
-        return $this->algorithm->compute($rawSignature);
+        return sprintf('%s.%s', $encodedHeader, $encodedPayload);
     }
 
-    public function sign(Token $token)
+    /**
+     * @param Token $token
+     * @param string $signingKey
+     */
+    public function sign(Token $token, $signingKey)
     {
         $token->addHeader(new Algorithm($this->algorithm->getName()));
 
-        $signature = $this->computeSignature($token);
+        $signature = $this->computeSignature($token, $signingKey);
 
         $token->setSignature($signature);
     }

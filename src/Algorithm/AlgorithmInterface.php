@@ -10,8 +10,17 @@ interface AlgorithmInterface
     public function getName();
 
     /**
-     * @param string $value
+     * @param $message
+     * @param $key
      * @return string
      */
-    public function compute($value);
-} 
+    public function sign($message, $key);
+
+    /**
+     * @param string $message
+     * @param string $signature
+     * @param string $key
+     * @return boolean
+     */
+    public function check($message, $signature, $key);
+}

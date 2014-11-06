@@ -10,11 +10,22 @@ abstract class RsaSsaPss implements AlgorithmInterface
     }
 
     /**
-     * @param string $value
+     * @param $message
+     * @param $private_key
      * @return string
      */
-    public function compute($value)
+    public function sign($message, $private_key)
     {
-        // Noop
+        //noop
+    }
+
+    /**
+     * @param string $message
+     * @param string $signature
+     * @param string $public_key
+     * @return bool
+     */
+    public function check($message, $signature, $public_key) {
+        //noop
     }
 } 

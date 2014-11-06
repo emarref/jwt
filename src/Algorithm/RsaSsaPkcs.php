@@ -4,18 +4,8 @@ namespace Emarref\Jwt\Algorithm;
 
 abstract class RsaSsaPkcs implements AlgorithmInterface
 {
-    /**
-     * @var string
-     */
-    private $key;
-
-    /**
-     * @param string $key
-     */
-    public function __construct($key)
+    public function __construct()
     {
-        $this->key = $key;
-
         $this->ensureSupport();
     }
 
@@ -34,28 +24,62 @@ abstract class RsaSsaPkcs implements AlgorithmInterface
      */
     private function throwEncryptionException()
     {
-        $messages = [];
-
-        while ($msg = openssl_error_string()) {
-            $messages[] = $msg;
-        }
-
+        $messages = $this->getSslErrors();
         throw new \RuntimeException('Failed to encrypt value. ' . implode("\n", $messages));
     }
 
     /**
-     * @param string $value
+     * @throws \RuntimeException
+     */
+    private function throwDecryptionException()
+    {
+        $messages = $this->getSslErrors();
+        throw new \RuntimeException('Failed to decrypt value. ' . implode("\n", $messages));
+    }
+
+    /**
+     * @return array
+     */
+    private function getSslErrors()
+    {
+        $messages = [];
+        while ($msg = openssl_error_string()) {
+            $messages[] = $msg;
+        }
+
+        return $messages;
+    }
+
+    /**
+     * @param $message
+     * @param $private_key
      * @return string
      */
-    public function compute($value)
+    public function sign($message, $private_key)
     {
-        $result = openssl_sign($value, $signature, $this->key, $this->getAlgorithm());
+        $result = openssl_sign($message, $signature, $private_key, $this->getAlgorithm());
 
         if (false === $result) {
             $this->throwEncryptionException();
         }
 
         return $signature;
+    }
+
+    /**
+     * @param string $message
+     * @param string $signature
+     * @param string $public_key
+     * @return bool
+     */
+    public function check($message, $signature, $public_key) {
+        $result = openssl_verify($message, $signature, $public_key, $this->getAlgorithm());
+
+        if (-1 == $result) {
+            $this->throwDecryptionException();
+        }
+
+        return (boolean)$result;
     }
 
     /**

@@ -2,14 +2,18 @@
 
 namespace Emarref\Jwt\Algorithm;
 
+require_once dirname(__FILE__).'/SslKeyPairTrait.php';
+
 class Rs384Test extends \PHPUnit_Framework_TestCase
 {
+    use SslKeyPairTrait;
+
     private static $name = 'RS384';
 
     /**
      * @var string
      */
-    private $key;
+    private $keyPair;
 
     /**
      * @var Rs384
@@ -18,8 +22,8 @@ class Rs384Test extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->key = openssl_pkey_new();
-        $this->algorithm = new Rs384($this->key);
+        $this->keyPair = $this->generateKeyPair('sha384');
+        $this->algorithm = new Rs384();
     }
 
     public function testGetName()
@@ -27,11 +31,11 @@ class Rs384Test extends \PHPUnit_Framework_TestCase
         $this->assertSame(self::$name, $this->algorithm->getName());
     }
 
-    public function testCompute()
+    public function testSign()
     {
         $unencryptedValue = 'foobar';
-        openssl_sign($unencryptedValue, $encryptedValue, $this->key, OPENSSL_ALGO_SHA384);
-        $signature = $this->algorithm->compute($unencryptedValue);
+        openssl_sign($unencryptedValue, $encryptedValue, $this->keyPair['private'], OPENSSL_ALGO_SHA384);
+        $signature = $this->algorithm->sign($unencryptedValue, $this->keyPair['private']);
 
         $this->assertSame($encryptedValue, $signature);
     }

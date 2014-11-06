@@ -15,11 +15,21 @@ class None implements AlgorithmInterface
     }
 
     /**
-     * @param string $value
+     * @param $message
+     * @param $secret
      * @return string
      */
-    public function compute($value)
-    {
-        return '';
+    public function sign($message, $secret) {
+        return $message;
+    }
+
+    /**
+     * @param $message
+     * @param $signature
+     * @param $secret
+     * @return boolean
+     */
+    public function check($message, $signature, $secret) {
+        return $message == $signature;
     }
 } 
