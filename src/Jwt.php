@@ -41,11 +41,12 @@ class Jwt
     /**
      * @param Token                             $token
      * @param Algorithm\AlgorithmInterface|null $algorithm
+     * @param string                            $signingKey
      * @return string
      */
-    public function serialize(Token $token, Algorithm\AlgorithmInterface $algorithm = null)
+    public function serialize(Token $token, Algorithm\AlgorithmInterface $algorithm = null, $signingKey = null)
     {
-        $this->sign($token, $algorithm);
+        $this->sign($token, $algorithm, $signingKey);
 
         $serialization = new Serialization\Compact(
             $this->encoder,
@@ -59,15 +60,16 @@ class Jwt
     /**
      * @param Token                        $token
      * @param Algorithm\AlgorithmInterface $algorithm
+     * @param string                       $signingKey
      */
-    public function sign(Token $token, Algorithm\AlgorithmInterface $algorithm = null)
+    public function sign(Token $token, Algorithm\AlgorithmInterface $algorithm = null, $signingKey = null)
     {
         if (null === $algorithm) {
             $algorithm = new Algorithm\None();
         }
 
         $signer = new Signature\Jws($algorithm, $this->encoder);
-        $signer->sign($token);
+        $signer->sign($token, $signingKey);
     }
 
     /**
@@ -77,7 +79,7 @@ class Jwt
     protected function getVerifiers(Verification\Context $context)
     {
         return [
-            new Verification\AlgorithmVerifier($context->getAlgorithm(), $this->encoder),
+            new Verification\AlgorithmVerifier($context->getAlgorithm(),$context->getVerificationKey(), $this->encoder),
             new Verification\AudienceVerifier($context->getAudience()),
             new Verification\ExpirationVerifier(),
             new Verification\IssuerVerifier($context->getIssuer()),
@@ -95,6 +97,12 @@ class Jwt
         if (!$context->getAlgorithm()) {
             $context->setAlgorithm(new Algorithm\None());
         }
+
+        if (!$context->getVerificationKey()) {
+            $context->setVerificationKey('');
+        }
+
+        $signer = new Signature\Jws($context->getAlgorithm(), $this->encoder);
 
         foreach ($this->getVerifiers($context) as $verifier) {
             $verifier->verify($token);

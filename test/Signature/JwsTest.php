@@ -79,7 +79,7 @@ class JwsTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($encodedClaimsJson));
 
         $this->algorithm->expects($this->once())
-            ->method('compute')
+            ->method('sign')
             ->with(sprintf('%s.%s', $encodedHeaderJson, $encodedClaimsJson))
             ->will($this->returnValue($computed));
 
@@ -95,7 +95,7 @@ class JwsTest extends \PHPUnit_Framework_TestCase
               ->method('getPayload')
               ->will($this->returnValue($payload));
 
-        $this->assertSame($computed, $this->signer->computeSignature($token));
+        $this->assertSame($computed, $this->signer->computeSignature($token, 'key'));
     }
 
     public function testSign()
@@ -135,7 +135,7 @@ class JwsTest extends \PHPUnit_Framework_TestCase
             ->method('encode');
 
         $this->algorithm->expects($this->once())
-            ->method('compute')
+            ->method('sign')
             ->will($this->returnValue($expectedSignature));
 
         // Configure token
@@ -162,6 +162,6 @@ class JwsTest extends \PHPUnit_Framework_TestCase
             ->method('setSignature')
             ->with($expectedSignature);
 
-        $this->signer->sign($token);
+        $this->signer->sign($token, 'key');
     }
 }

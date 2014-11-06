@@ -2,24 +2,28 @@
 
 namespace Emarref\Jwt\Algorithm;
 
+require_once dirname(__FILE__).'/SslKeyPairTrait.php';
+
 class Rs512Test extends \PHPUnit_Framework_TestCase
 {
+    use SslKeyPairTrait;
+
     private static $name = 'RS512';
 
     /**
      * @var string
      */
-    private $key;
+    private $keyPair;
 
     /**
-     * @var Rs512
+     * @var Rs384
      */
     private $algorithm;
 
     public function setUp()
     {
-        $this->key = openssl_pkey_new();
-        $this->algorithm = new Rs512($this->key);
+        $this->keyPair = $this->generateKeyPair('sha512');
+        $this->algorithm = new Rs512();
     }
 
     public function testGetName()
@@ -27,11 +31,11 @@ class Rs512Test extends \PHPUnit_Framework_TestCase
         $this->assertSame(self::$name, $this->algorithm->getName());
     }
 
-    public function testCompute()
+    public function testSign()
     {
         $unencryptedValue = 'foobar';
-        openssl_sign($unencryptedValue, $encryptedValue, $this->key, OPENSSL_ALGO_SHA512);
-        $signature = $this->algorithm->compute($unencryptedValue);
+        openssl_sign($unencryptedValue, $encryptedValue, $this->keyPair['private'], OPENSSL_ALGO_SHA512);
+        $signature = $this->algorithm->sign($unencryptedValue, $this->keyPair['private']);
 
         $this->assertSame($encryptedValue, $signature);
     }

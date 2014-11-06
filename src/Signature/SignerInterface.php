@@ -8,6 +8,7 @@ interface SignerInterface
 {
     /**
      * @param Token $token
+     * @param string $signingKey
      */
-    public function sign(Token $token);
+    public function sign(Token $token, $signingKey);
 }

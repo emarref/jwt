@@ -16,7 +16,7 @@ class Hs256Test extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->algorithm = new Hs256(self::$secret);
+        $this->algorithm = new Hs256();
     }
 
     public function testGetName()
@@ -24,10 +24,10 @@ class Hs256Test extends \PHPUnit_Framework_TestCase
         $this->assertSame(self::$name, $this->algorithm->getName());
     }
 
-    public function testCompute()
+    public function testSign()
     {
         $unencryptedValue = 'foobar';
         $encryptedValue   = hash_hmac(self::ALGORITHM, $unencryptedValue, self::$secret, true);
-        $this->assertSame($encryptedValue, $this->algorithm->compute($unencryptedValue));
+        $this->assertSame($encryptedValue, $this->algorithm->sign($unencryptedValue, self::$secret));
     }
 }

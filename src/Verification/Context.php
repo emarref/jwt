@@ -22,6 +22,11 @@ class Context
     private $algorithm;
 
     /**
+     * @var string
+     */
+    private $verificationKey;
+
+    /**
      * @return string
      */
     public function getAudience()
@@ -72,6 +77,24 @@ class Context
     public function setAlgorithm($algorithm)
     {
         $this->algorithm = $algorithm;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVerificationKey()
+    {
+        return $this->verificationKey;
+    }
+
+    /**
+     * @param string $verificationKey
+     * @return $this
+     */
+    public function setVerificationKey($verificationKey)
+    {
+        $this->verificationKey = $verificationKey;
         return $this;
     }
 }
