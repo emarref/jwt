@@ -21,8 +21,5 @@
         "psr-4": {
             "Emarref\\Jwt\\": "src/"
         }
-    },
-    "require": {
-        "phpunit/php-invoker": "~1.1"
     }
 }
