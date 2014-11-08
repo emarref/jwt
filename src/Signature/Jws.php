@@ -4,28 +4,29 @@ namespace Emarref\Jwt\Signature;
 
 use Emarref\Jwt\Algorithm\AlgorithmInterface;
 use Emarref\Jwt\Encoding\EncoderInterface;
+use Emarref\Jwt\Encryption\EncryptionInterface;
 use Emarref\Jwt\HeaderParameter\Algorithm;
 use Emarref\Jwt\Token;
 
 class Jws implements SignerInterface
 {
     /**
-     * @var AlgorithmInterface
+     * @var EncryptionInterface
      */
-    private $algorithm;
+    private $encryption;
 
     /**
      * @var EncoderInterface
      */
     private $encoder;
 
-    public function __construct(AlgorithmInterface $algorithm, EncoderInterface $encoder)
+    public function __construct(EncryptionInterface $encryption, EncoderInterface $encoder)
     {
-        $this->algorithm = $algorithm;
-        $this->encoder   = $encoder;
+        $this->encryption = $encryption;
+        $this->encoder    = $encoder;
     }
 
-    public function computeSignature(Token $token)
+    public function getUnsignedValue(Token $token)
     {
         $jsonHeader    = $token->getHeader()->getParameters()->jsonSerialize();
         $encodedHeader = $this->encoder->encode($jsonHeader);
@@ -33,15 +34,16 @@ class Jws implements SignerInterface
         $jsonPayload    = $token->getPayload()->getClaims()->jsonSerialize();
         $encodedPayload = $this->encoder->encode($jsonPayload);
 
-        $rawSignature = sprintf('%s.%s', $encodedHeader, $encodedPayload);
-        return $this->algorithm->compute($rawSignature);
+        return sprintf('%s.%s', $encodedHeader, $encodedPayload);
     }
 
     public function sign(Token $token)
     {
-        $token->addHeader(new Algorithm($this->algorithm->getName()));
+        $token->addHeader(new Algorithm($this->encryption->getAlgorithmName()));
 
-        $signature = $this->computeSignature($token);
+        $rawSignature = $this->getUnsignedValue($token);
+
+        $signature = $this->encryption->encrypt($rawSignature);
 
         $token->setSignature($signature);
     }

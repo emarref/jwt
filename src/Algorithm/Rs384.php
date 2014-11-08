@@ -4,7 +4,8 @@ namespace Emarref\Jwt\Algorithm;
 
 class Rs384 extends RsaSsaPkcs
 {
-    const NAME = 'RS384';
+    const NAME      = 'RS384';
+    const ALGORITHM = 'sha384';
 
     /**
      * @return string
@@ -19,6 +20,6 @@ class Rs384 extends RsaSsaPkcs
      */
     public function getAlgorithm()
     {
-        return OPENSSL_ALGO_SHA384;
+        return self::ALGORITHM;
     }
 }

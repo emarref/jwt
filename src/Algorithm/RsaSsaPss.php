@@ -2,7 +2,7 @@
 
 namespace Emarref\Jwt\Algorithm;
 
-abstract class RsaSsaPss implements AlgorithmInterface
+abstract class RsaSsaPss implements AsymmetricInterface
 {
     public function __construct()
     {
@@ -10,11 +10,23 @@ abstract class RsaSsaPss implements AlgorithmInterface
     }
 
     /**
-     * @param string $value
+     * @param string          $value
+     * @param string|resource $privateKey
      * @return string
      */
-    public function compute($value)
+    public function sign($value, $privateKey)
     {
         // Noop
     }
-} 
+
+    /**
+     * @param string          $value
+     * @param string          $signature
+     * @param string|resource $publicKey
+     * @return boolean
+     */
+    public function verify($value, $signature, $publicKey)
+    {
+        // Noop
+    }
+}

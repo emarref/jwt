@@ -4,7 +4,8 @@ namespace Emarref\Jwt\Algorithm;
 
 class Rs256 extends RsaSsaPkcs
 {
-    const NAME = 'RS256';
+    const NAME      = 'RS256';
+    const ALGORITHM = 'sha256';
 
     /**
      * @return string
@@ -19,6 +20,6 @@ class Rs256 extends RsaSsaPkcs
      */
     public function getAlgorithm()
     {
-        return OPENSSL_ALGO_SHA256;
+        return self::ALGORITHM;
     }
 }

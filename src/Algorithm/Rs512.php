@@ -4,7 +4,8 @@ namespace Emarref\Jwt\Algorithm;
 
 class Rs512 extends RsaSsaPkcs
 {
-    const NAME = 'RS512';
+    const NAME      = 'RS512';
+    const ALGORITHM = 'sha512';
 
     /**
      * @return string
@@ -19,6 +20,6 @@ class Rs512 extends RsaSsaPkcs
      */
     public function getAlgorithm()
     {
-        return OPENSSL_ALGO_SHA512;
+        return self::ALGORITHM;
     }
 }
