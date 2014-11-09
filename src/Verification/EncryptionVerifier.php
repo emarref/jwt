@@ -23,6 +23,11 @@ class EncryptionVerifier implements VerifierInterface
     private $encoder;
 
     /**
+     * @var Signature\Jws
+     */
+    protected $signer;
+
+    /**
      * @param Encryption\EncryptionInterface $encryption
      * @param Encoding\EncoderInterface    $encoder
      */
@@ -30,6 +35,7 @@ class EncryptionVerifier implements VerifierInterface
     {
         $this->encryption = $encryption;
         $this->encoder    = $encoder;
+        $this->signer     = new Signature\Jws($this->encryption, $this->encoder);
     }
 
     /**
@@ -53,9 +59,7 @@ class EncryptionVerifier implements VerifierInterface
             ));
         }
 
-        $signer = new Signature\Jws($this->encryption, $this->encoder);
-
-        if (!$this->encryption->verify($signer->getUnsignedValue($token), $token->getSignature())) {
+        if (!$this->encryption->verify($this->signer->getUnsignedValue($token), $token->getSignature())) {
             throw new VerificationException('Signature is invalid.');
         }
     }
