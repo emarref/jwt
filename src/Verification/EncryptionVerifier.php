@@ -4,17 +4,19 @@ namespace Emarref\Jwt\Verification;
 
 use Emarref\Jwt\Algorithm;
 use Emarref\Jwt\Encoding;
+use Emarref\Jwt\Encryption\Asymmetric;
+use Emarref\Jwt\Encryption\EncryptionInterface;
 use Emarref\Jwt\Exception\VerificationException;
 use Emarref\Jwt\HeaderParameter;
 use Emarref\Jwt\Signature;
 use Emarref\Jwt\Token;
 
-class AlgorithmVerifier implements VerifierInterface
+class EncryptionVerifier implements VerifierInterface
 {
     /**
-     * @var HeaderParameter\Algorithm
+     * @var EncryptionInterface
      */
-    private $algorithm;
+    private $encryption;
 
     /**
      * @var Encoding\EncoderInterface
@@ -22,13 +24,13 @@ class AlgorithmVerifier implements VerifierInterface
     private $encoder;
 
     /**
-     * @param Algorithm\AlgorithmInterface $algorithm
+     * @param EncryptionInterface $encryption
      * @param Encoding\EncoderInterface    $encoder
      */
-    public function __construct(Algorithm\AlgorithmInterface $algorithm, Encoding\EncoderInterface $encoder)
+    public function __construct(EncryptionInterface $encryption, Encoding\EncoderInterface $encoder)
     {
-        $this->algorithm = $algorithm;
-        $this->encoder   = $encoder;
+        $this->encryption = $encryption;
+        $this->encoder    = $encoder;
     }
 
     /**
@@ -44,18 +46,18 @@ class AlgorithmVerifier implements VerifierInterface
             throw new \RuntimeException('Algorithm parameter not found in token header.');
         }
 
-        if ($algorithmParameter->getValue() !== $this->algorithm->getName()) {
+        if ($algorithmParameter->getValue() !== $this->encryption->getAlgorithmName()) {
             throw new \RuntimeException(sprintf(
                 'Cannot use "%s" algorithm to decrypt token encrypted with algorithm "%s".',
-                $this->algorithm->getName(),
+                $this->encryption->getAlgorithmName(),
                 $algorithmParameter->getValue()
             ));
         }
 
-        $signer = new Signature\Jws($this->algorithm, $this->encoder);
+        $signer = new Signature\Jws($this->encryption, $this->encoder);
 
-        if ($token->getSignature() !== $signer->computeSignature($token)) {
-            throw new VerificationException('Token signature is invalid.');
+        if (!$this->encryption->verify($signer->getUnsignedValue($token), $token->getSignature())) {
+            throw new VerificationException('Signature is invalid.');
         }
     }
 }

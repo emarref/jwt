@@ -21,5 +21,10 @@
         "psr-4": {
             "Emarref\\Jwt\\": "src/"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Emarref\\Jwt\\": "test/"
+        }
     }
 }

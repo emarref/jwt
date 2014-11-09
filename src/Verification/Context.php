@@ -2,7 +2,7 @@
 
 namespace Emarref\Jwt\Verification;
 
-use Emarref\Jwt\Algorithm\AlgorithmInterface;
+use Emarref\Jwt\Encryption\EncryptionInterface;
 
 class Context
 {
@@ -17,9 +17,17 @@ class Context
     private $issuer;
 
     /**
-     * @var AlgorithmInterface
+     * @var EncryptionInterface
      */
-    private $algorithm;
+    private $encryption;
+
+    /**
+     * @param EncryptionInterface $encryption
+     */
+    public function __construct(EncryptionInterface $encryption)
+    {
+        $this->setEncryption($encryption);
+    }
 
     /**
      * @return string
@@ -58,20 +66,20 @@ class Context
     }
 
     /**
-     * @return AlgorithmInterface
+     * @return EncryptionInterface
      */
-    public function getAlgorithm()
+    public function getEncryption()
     {
-        return $this->algorithm;
+        return $this->encryption;
     }
 
     /**
-     * @param AlgorithmInterface $algorithm
+     * @param EncryptionInterface $encryption
      * @return $this
      */
-    public function setAlgorithm($algorithm)
+    public function setEncryption($encryption)
     {
-        $this->algorithm = $algorithm;
+        $this->encryption = $encryption;
         return $this;
     }
 }

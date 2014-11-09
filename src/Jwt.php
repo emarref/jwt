@@ -5,6 +5,7 @@ namespace Emarref\Jwt;
 use Emarref\Jwt\Algorithm;
 use Emarref\Jwt\Claim;
 use Emarref\Jwt\Encoding;
+use Emarref\Jwt\Encryption;
 use Emarref\Jwt\Exception;
 use Emarref\Jwt\HeaderParameter;
 use Emarref\Jwt\Serialization;
@@ -20,7 +21,7 @@ class Jwt
 
     public function __construct()
     {
-        $this->encoder = new Encoding\Base64();
+        $this->encoder           = new Encoding\Base64();
     }
 
     /**
@@ -39,13 +40,13 @@ class Jwt
     }
 
     /**
-     * @param Token                             $token
-     * @param Algorithm\AlgorithmInterface|null $algorithm
+     * @param Token                          $token
+     * @param Encryption\EncryptionInterface $encryption
      * @return string
      */
-    public function serialize(Token $token, Algorithm\AlgorithmInterface $algorithm = null)
+    public function serialize(Token $token, Encryption\EncryptionInterface $encryption)
     {
-        $this->sign($token, $algorithm);
+        $this->sign($token, $encryption);
 
         $serialization = new Serialization\Compact(
             $this->encoder,
@@ -57,16 +58,13 @@ class Jwt
     }
 
     /**
-     * @param Token                        $token
-     * @param Algorithm\AlgorithmInterface $algorithm
+     * @param Token                          $token
+     * @param Encryption\EncryptionInterface $encryption
      */
-    public function sign(Token $token, Algorithm\AlgorithmInterface $algorithm = null)
+    public function sign(Token $token, Encryption\EncryptionInterface $encryption)
     {
-        if (null === $algorithm) {
-            $algorithm = new Algorithm\None();
-        }
+        $signer = new Signature\Jws($encryption, $this->encoder);
 
-        $signer = new Signature\Jws($algorithm, $this->encoder);
         $signer->sign($token);
     }
 
@@ -77,7 +75,7 @@ class Jwt
     protected function getVerifiers(Verification\Context $context)
     {
         return [
-            new Verification\AlgorithmVerifier($context->getAlgorithm(), $this->encoder),
+            new Verification\EncryptionVerifier($context->getEncryption(), $this->encoder),
             new Verification\AudienceVerifier($context->getAudience()),
             new Verification\ExpirationVerifier(),
             new Verification\IssuerVerifier($context->getIssuer()),
@@ -92,10 +90,6 @@ class Jwt
      */
     public function verify(Token $token, Verification\Context $context)
     {
-        if (!$context->getAlgorithm()) {
-            $context->setAlgorithm(new Algorithm\None());
-        }
-
         foreach ($this->getVerifiers($context) as $verifier) {
             $verifier->verify($token);
         }

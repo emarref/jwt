@@ -2,7 +2,7 @@
 
 namespace Emarref\Jwt\Algorithm;
 
-abstract class Hmac implements AlgorithmInterface
+abstract class Hmac implements SymmetricInterface
 {
     /**
      * @var string
@@ -55,4 +55,4 @@ abstract class Hmac implements AlgorithmInterface
      * @return string
      */
     abstract protected function getAlgorithm();
-} 
+}

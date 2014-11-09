@@ -2,22 +2,14 @@
 
 namespace Emarref\Jwt\Algorithm;
 
-abstract class EcdSa implements AsymmetricInterface
+interface AsymmetricInterface extends AlgorithmInterface
 {
-    public function __construct()
-    {
-        throw new \RuntimeException('Not implemented');
-    }
-
     /**
      * @param string          $value
      * @param string|resource $privateKey
      * @return string
      */
-    public function sign($value, $privateKey)
-    {
-        // Noop
-    }
+    public function sign($value, $privateKey);
 
     /**
      * @param string          $value
@@ -25,8 +17,5 @@ abstract class EcdSa implements AsymmetricInterface
      * @param string|resource $publicKey
      * @return boolean
      */
-    public function verify($value, $signature, $publicKey)
-    {
-        // Noop
-    }
+    public function verify($value, $signature, $publicKey);
 }

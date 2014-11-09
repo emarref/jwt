@@ -2,7 +2,7 @@
 
 namespace Emarref\Jwt\Algorithm;
 
-class None implements AlgorithmInterface
+class None implements SymmetricInterface
 {
     const NAME = 'none';
 
@@ -22,4 +22,4 @@ class None implements AlgorithmInterface
     {
         return '';
     }
-} 
+}
