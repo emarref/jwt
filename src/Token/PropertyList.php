@@ -9,19 +9,11 @@ class PropertyList implements \JsonSerializable, \IteratorAggregate
     /**
      * @var \ArrayObject
      */
-    private $properties;
+    protected $properties;
 
     public function __construct()
     {
         $this->properties = new \ArrayObject();
-    }
-
-    /**
-     * @param string $name
-     */
-    public function removeProperty($name)
-    {
-        unset($this->properties[$name]);
     }
 
     /**
