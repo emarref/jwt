@@ -10,6 +10,25 @@ use Emarref\Jwt\Token;
 
 class ExpirationVerifier implements VerifierInterface
 {
+    /**
+     * @param Claim\Expiration $expirationClaim
+     * @throws \InvalidArgumentException
+     * @return \DateTime
+     */
+    private function getDateTimeFromClaim(Claim\Expiration $expirationClaim)
+    {
+        if (!is_long($expirationClaim->getValue())) {
+            throw new \InvalidArgumentException(sprintf(
+                'Invalid expiration timestamp "%s"',
+                $expirationClaim->getValue()
+            ));
+        }
+
+        $expiration = new \DateTime();
+        $expiration->setTimestamp($expirationClaim->getValue());
+        return $expiration;
+    }
+
     public function verify(Token $token)
     {
         /** @var Claim\Expiration $expirationClaim */
@@ -22,8 +41,7 @@ class ExpirationVerifier implements VerifierInterface
         $now = new \DateTime('now', new \DateTimeZone('UTC'));
 
         if ($now->getTimestamp() > $expirationClaim->getValue()) {
-            $expiration = new \DateTime();
-            $expiration->setTimestamp($expirationClaim->getValue());
+            $expiration = $this->getDateTimeFromClaim($expirationClaim);
             throw new VerificationException(sprintf('Token expired at "%s"', $expiration->format('r')));
         }
     }
