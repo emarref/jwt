@@ -47,6 +47,6 @@ class CriticalTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($expectedValue, $this->parameter->getValue());
 
         $this->parameter->addParameter($parameter);
-        $this->assertSame($expectedValue, $this->parameter->getValue(), 'Add parameter duplicates parameters');
+        $this->assertSame($expectedValue, $this->parameter->getValue(), 'Add parameter duplicates claims');
     }
 }

@@ -115,7 +115,7 @@ class CompactTest extends \PHPUnit_Framework_TestCase
 
     public function testSerialize()
     {
-        // Configure header
+        // Configure payload
 
         $headerParameters = $this->getMockBuilder('Emarref\Jwt\Token\PropertyList')->getMock();
 

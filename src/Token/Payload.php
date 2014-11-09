@@ -9,7 +9,7 @@ class Payload implements \JsonSerializable
     /**
      * @var PropertyList
      */
-    private $propertyList;
+    protected $propertyList;
 
     public function __construct()
     {

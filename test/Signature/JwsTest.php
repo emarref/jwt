@@ -43,7 +43,7 @@ class JwsTest extends \PHPUnit_Framework_TestCase
     {
         $expectedSignature = 'foobar';
 
-        // Configure header
+        // Configure payload
 
         $headerParameters = $this->getMockBuilder('Emarref\Jwt\Token\PropertyList')->getMock();
 
