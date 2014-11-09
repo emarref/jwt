@@ -45,7 +45,7 @@ class Payload implements \JsonSerializable
      */
     public function getClaims()
     {
-        return clone $this->propertyList;
+        return $this->propertyList;
     }
 
     /**

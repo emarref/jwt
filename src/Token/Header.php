@@ -10,7 +10,7 @@ class Header implements \JsonSerializable
     /**
      * @var PropertyList
      */
-    private $propertyList;
+    protected $propertyList;
 
     public function __construct()
     {
@@ -19,26 +19,23 @@ class Header implements \JsonSerializable
 
     /**
      * @param HeaderParameter\ParameterInterface $parameter
+     * @param boolean                            $critical
      */
-    public function setParameter(HeaderParameter\ParameterInterface $parameter)
+    public function setParameter(HeaderParameter\ParameterInterface $parameter, $critical = false)
     {
         $this->propertyList->setProperty($parameter);
-    }
 
-    /**
-     * @param Claim\ClaimInterface $claim
-     */
-    public function addCriticalClaim(Claim\ClaimInterface $claim)
-    {
-        /** @var HeaderParameter\Critical $criticalParameter */
-        $criticalParameter = $this->findParameterByName(HeaderParameter\Critical::NAME);
+        if ($critical) {
+            /** @var HeaderParameter\Critical $criticalParameter */
+            $criticalParameter = $this->findParameterByName(HeaderParameter\Critical::NAME);
 
-        if (!$criticalParameter) {
-            $criticalParameter = new HeaderParameter\Critical();
+            if (!$criticalParameter) {
+                $criticalParameter = new HeaderParameter\Critical();
+            }
+
+            $criticalParameter->addParameter($parameter);
+            $this->propertyList->setProperty($criticalParameter);
         }
-
-        $criticalParameter->addClaim($claim);
-        $this->setParameter($criticalParameter);
     }
 
     /**
@@ -58,19 +55,11 @@ class Header implements \JsonSerializable
     }
 
     /**
-     * @param string $name
-     */
-    public function removeParameterByName($name)
-    {
-        $this->propertyList->removeProperty($name);
-    }
-
-    /**
      * @return PropertyList
      */
     public function getParameters()
     {
-        return clone $this->propertyList;
+        return $this->propertyList;
     }
 
     /**

@@ -21,7 +21,7 @@ class Jwt
 
     public function __construct()
     {
-        $this->encoder           = new Encoding\Base64();
+        $this->encoder = new Encoding\Base64();
     }
 
     /**
