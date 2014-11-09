@@ -4,8 +4,7 @@ namespace Emarref\Jwt\Verification;
 
 use Emarref\Jwt\Algorithm;
 use Emarref\Jwt\Encoding;
-use Emarref\Jwt\Encryption\Asymmetric;
-use Emarref\Jwt\Encryption\EncryptionInterface;
+use Emarref\Jwt\Encryption;
 use Emarref\Jwt\Exception\VerificationException;
 use Emarref\Jwt\HeaderParameter;
 use Emarref\Jwt\Signature;
@@ -14,7 +13,7 @@ use Emarref\Jwt\Token;
 class EncryptionVerifier implements VerifierInterface
 {
     /**
-     * @var EncryptionInterface
+     * @var Encryption\EncryptionInterface
      */
     private $encryption;
 
@@ -24,10 +23,10 @@ class EncryptionVerifier implements VerifierInterface
     private $encoder;
 
     /**
-     * @param EncryptionInterface $encryption
+     * @param Encryption\EncryptionInterface $encryption
      * @param Encoding\EncoderInterface    $encoder
      */
-    public function __construct(EncryptionInterface $encryption, Encoding\EncoderInterface $encoder)
+    public function __construct(Encryption\EncryptionInterface $encryption, Encoding\EncoderInterface $encoder)
     {
         $this->encryption = $encryption;
         $this->encoder    = $encoder;
