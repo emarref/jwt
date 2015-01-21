@@ -15,7 +15,7 @@ Intended to eventually be a full implementation of the JWT standard.
 
 ### Functional example
 
-```
+```php
 require_once 'vendor/autoload.php';
 
 $jwt = new \Emarref\Jwt\Jwt();
