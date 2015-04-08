@@ -36,11 +36,7 @@ class AudienceVerifier implements VerifierInterface
         /** @var Claim\Audience $audienceClaim */
         $audienceClaim = $token->getPayload()->findClaimByName(Claim\Audience::NAME);
 
-        if (null === $audienceClaim) {
-            return;
-        }
-
-        $audience = $audienceClaim->getValue();
+        $audience = (null === $audienceClaim) ? null : $audienceClaim->getValue();
 
         if (!is_array($audience)) {
             $audience = [$audience];
