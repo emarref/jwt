@@ -32,23 +32,19 @@ class Token
 
     /**
      * @param HeaderParameter\ParameterInterface $parameter
+     * @param bool                               $critical
      */
-    public function addHeader(HeaderParameter\ParameterInterface $parameter)
+    public function addHeader(HeaderParameter\ParameterInterface $parameter, $critical = false)
     {
-        $this->header->setParameter($parameter);
+        $this->header->setParameter($parameter, $critical);
     }
 
     /**
      * @param Claim\ClaimInterface $claim
-     * @param bool                 $critical
      */
-    public function addClaim(Claim\ClaimInterface $claim, $critical = false)
+    public function addClaim(Claim\ClaimInterface $claim)
     {
         $this->payload->setClaim($claim);
-
-        if ($critical) {
-            $this->header->addCriticalClaim($claim);
-        }
     }
 
     /**
