@@ -59,7 +59,7 @@ $serializedToken = $jwt->serialize($token, $encryption);
 
 The `$serializedToken` variable now contains the unencrypted base64 encoded string representation of your token. To encrypt a token, pass an instance of `Emarref\Jwt\Encryption\EncryptionInterface` to the `serialize()` method as the second argument.
 
-```
+```php
 $algorithm = new Emarref\Jwt\Algorithm\Hs256('verysecret');
 $encryption = Emarref\Encryption\Factory::create($algorithm);
 $serializedToken = $jwt->serialize($token, $encryption);
