@@ -21,6 +21,13 @@ class NotBeforeVerifier implements VerifierInterface
 
         $now = new \DateTime('now', new \DateTimeZone('UTC'));
 
+        if (!is_long($notBeforeClaim->getValue())) {
+            throw new \InvalidArgumentException(sprintf(
+                'Invalid not before timestamp "%s"',
+                $notBeforeClaim->getValue()
+            ));
+        }
+
         if ($now->getTimestamp() < $notBeforeClaim->getValue()) {
             $notBefore = new \DateTime();
             $notBefore->setTimestamp($notBeforeClaim->getValue());
