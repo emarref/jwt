@@ -36,11 +36,7 @@ class IssuerVerifier implements VerifierInterface
         /** @var Claim\Issuer $issuerClaim */
         $issuerClaim = $token->getPayload()->findClaimByName(Claim\Issuer::NAME);
 
-        if (null === $issuerClaim) {
-            return;
-        }
-
-        $issuer = $issuerClaim->getValue();
+        $issuer = (null === $issuerClaim) ? null : $issuerClaim->getValue();
 
         if ($this->issuer !== $issuer) {
             throw new VerificationException('Issuer is invalid.');
