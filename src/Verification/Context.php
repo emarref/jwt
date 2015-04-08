@@ -17,6 +17,11 @@ class Context
     private $issuer;
 
     /**
+     * @var string
+     */
+    private $subject;
+
+    /**
      * @var EncryptionInterface
      */
     private $encryption;
@@ -62,6 +67,24 @@ class Context
     public function setIssuer($issuer)
     {
         $this->issuer = $issuer;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSubject()
+    {
+        return $this->subject;
+    }
+
+    /**
+     * @param string $subject
+     * @return $this
+     */
+    public function setSubject($subject)
+    {
+        $this->subject = $subject;
         return $this;
     }
 
