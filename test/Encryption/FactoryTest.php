@@ -6,23 +6,13 @@ use Emarref\Jwt\Algorithm;
 
 class FactoryTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var Factory
-     */
-    private $factory;
-
-    public function setUp()
-    {
-        $this->factory = new Factory();
-    }
-
     public function testAsymmetricCreation()
     {
         $expectedEncryptionInstance = 'Emarref\Jwt\Encryption\Asymmetric';
 
         $algorithm = new Algorithm\Rs256();
 
-        $this->assertInstanceOf($expectedEncryptionInstance, $this->factory->create($algorithm));
+        $this->assertInstanceOf($expectedEncryptionInstance, Factory::create($algorithm));
     }
 
     public function testSymmetricCreation()
@@ -31,7 +21,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
         $algorithm = new Algorithm\Hs256('secret');
 
-        $this->assertInstanceOf($expectedEncryptionInstance, $this->factory->create($algorithm));
+        $this->assertInstanceOf($expectedEncryptionInstance, Factory::create($algorithm));
     }
 
     /**
@@ -42,6 +32,6 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     {
         $algorithm = new UnknownAlgorithmStub();
 
-        $this->factory->create($algorithm);
+        Factory::create($algorithm);
     }
 }
