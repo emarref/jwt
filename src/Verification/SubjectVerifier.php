@@ -36,11 +36,7 @@ class SubjectVerifier implements VerifierInterface
         /** @var Claim\Subject $subjectClaim */
         $subjectClaim = $token->getPayload()->findClaimByName(Claim\Subject::NAME);
 
-        if (null === $subjectClaim) {
-            return;
-        }
-
-        $subject = $subjectClaim->getValue();
+        $subject = (null === $subjectClaim) ? null : $subjectClaim->getValue();
 
         if ($this->subject !== $subject) {
             throw new VerificationException('Subject is invalid.');
