@@ -2,7 +2,6 @@
 
 namespace Emarref\Jwt\Signature;
 
-use Emarref\Jwt\Algorithm\AlgorithmInterface;
 use Emarref\Jwt\Encoding\EncoderInterface;
 use Emarref\Jwt\Encryption\EncryptionInterface;
 use Emarref\Jwt\HeaderParameter\Algorithm;
