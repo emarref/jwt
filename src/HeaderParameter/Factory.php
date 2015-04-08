@@ -2,8 +2,15 @@
 
 namespace Emarref\Jwt\HeaderParameter;
 
+use Emarref\Jwt\FactoryTrait;
+
+/**
+ * @method ParameterInterface get(string $name)
+ */
 class Factory
 {
+    use FactoryTrait;
+
     /**
      * @var string
      */
@@ -27,19 +34,18 @@ class Factory
     ];
 
     /**
-     * @param string $name
-     * @return ParameterInterface
+     * @return array
      */
-    public function get($name)
+    protected function getClassMap()
     {
-        if (isset(self::$classMap[$name])) {
-            $class = self::$classMap[$name];
-            $parameter = new $class();
-        } else {
-            $class = self::$customParameterClass;
-            $parameter = new $class($name);
-        }
+        return self::$classMap;
+    }
 
-        return $parameter;
+    /**
+     * @return string
+     */
+    protected function getDefaultClass()
+    {
+        return self::$customParameterClass;
     }
 }

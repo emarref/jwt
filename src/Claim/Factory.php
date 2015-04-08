@@ -2,8 +2,15 @@
 
 namespace Emarref\Jwt\Claim;
 
+use Emarref\Jwt\FactoryTrait;
+
+/**
+ * @method ClaimInterface get(string $name)
+ */
 class Factory
 {
+    use FactoryTrait;
+
     /**
      * @var string
      */
@@ -23,19 +30,18 @@ class Factory
     ];
 
     /**
-     * @param string $name
-     * @return ClaimInterface
+     * @return array
      */
-    public function get($name)
+    protected function getClassMap()
     {
-        if (isset(self::$classMap[$name])) {
-            $class     = self::$classMap[$name];
-            $parameter = new $class();
-        } else {
-            $class     = self::$privateClaimClass;
-            $parameter = new $class($name);
-        }
+        return self::$classMap;
+    }
 
-        return $parameter;
+    /**
+     * @return string
+     */
+    protected function getDefaultClass()
+    {
+        return self::$privateClaimClass;
     }
 }
