@@ -88,6 +88,13 @@ try {
     echo $e->getMessage();
 }
 ```
+## Testing
+
+This library uses PHPUnit for unit testing. Make sure you've run `composer install` then call:
+ 
+```
+./bin/phpunit ./test
+```
 
 ## Further Reading
 
