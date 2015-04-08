@@ -10,6 +10,7 @@ Features include:
     - `NONE`, `HS256`, `HS384`, `HS512` algorithms supported
 - Asymmetric Encryption
     - `RS256`, `RS384`, `RS512` algorithms supported
+    - `ES256`, `ES384`, `ES512`, `PS256`, `PS384`, `PS512` algorithms are planned
 
 This library is not susceptible to the [recently discussed encryption vulnerability](https://auth0.com/blog/2015/03/31/critical-vulnerabilities-in-json-web-token-libraries/).
 
