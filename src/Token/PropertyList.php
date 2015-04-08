@@ -2,8 +2,6 @@
 
 namespace Emarref\Jwt\Token;
 
-use Traversable;
-
 class PropertyList implements \JsonSerializable, \IteratorAggregate
 {
     /**
