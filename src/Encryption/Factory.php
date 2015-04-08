@@ -10,7 +10,7 @@ class Factory
      * @param Algorithm\AlgorithmInterface $algorithm
      * @return Asymmetric|Symmetric
      */
-    public function create(Algorithm\AlgorithmInterface $algorithm)
+    static public function create(Algorithm\AlgorithmInterface $algorithm)
     {
         if ($algorithm instanceof Algorithm\AsymmetricInterface) {
             $encryption = new Asymmetric($algorithm);
