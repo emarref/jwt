@@ -1,9 +1,6 @@
 {
     "name": "emarref/jwt",
     "description": "A JWT implementation",
-    "require-dev": {
-        "phpunit/phpunit": "*"
-    },
     "license": "MIT",
     "authors": [
         {
@@ -11,6 +8,12 @@
             "email": "emarref@gmail.com"
         }
     ],
+    "require": {
+        "php": ">=5.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    },
     "suggest": {
         "ext-openssl": "Enables more token encryption options"
     },
