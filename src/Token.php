@@ -5,16 +5,17 @@ namespace Emarref\Jwt;
 use Emarref\Jwt\Claim;
 use Emarref\Jwt\HeaderParameter;
 use Emarref\Jwt\Token\Header;
+use Emarref\Jwt\Token\Payload;
 
 class Token
 {
     /**
-     * @var Token\Header
+     * @var Header
      */
     private $header;
 
     /**
-     * @var Token\Payload
+     * @var Payload
      */
     private $payload;
 
@@ -25,8 +26,8 @@ class Token
 
     public function __construct()
     {
-        $this->header  = new Token\Header();
-        $this->payload = new Token\Payload();
+        $this->header  = new Header();
+        $this->payload = new Payload();
     }
 
     /**
