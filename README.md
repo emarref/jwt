@@ -63,7 +63,7 @@ The `$serializedToken` variable now contains the unencrypted base64 encoded stri
 
 ```php
 $algorithm = new Emarref\Jwt\Algorithm\Hs256('verysecret');
-$encryption = Emarref\Encryption\Factory::create($algorithm);
+$encryption = Emarref\Jwt\Encryption\Factory::create($algorithm);
 $serializedToken = $jwt->serialize($token, $encryption);
 ```
 
