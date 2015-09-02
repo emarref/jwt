@@ -55,7 +55,7 @@ To retrieve the encoded token for transfer, call the `serialize()` method.
 
 ```php
 $algorithm = new Emarref\Jwt\Algorithm\None();
-$encryption = Emarref\Encryption\Factory::create($algorithm);
+$encryption = Emarref\Jwt\Encryption\Factory::create($algorithm);
 $serializedToken = $jwt->serialize($token, $encryption);
 ```
 
