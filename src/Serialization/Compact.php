@@ -41,12 +41,18 @@ class Compact implements SerializerInterface
 
     /**
      * @param string $headersJson
+     *
      * @return HeaderParameter\ParameterInterface[]
+     * @throws \InvalidArgumentException
      */
     protected function parseHeaders($headersJson)
     {
         $parameters = [];
         $headers = json_decode($headersJson, true);
+
+        if (!is_array($headers) || empty($headers)) {
+            throw new \InvalidArgumentException('Not a valid header of JWT string passed for deserialization');
+        }
 
         foreach ($headers as $name => $value) {
             $parameter = $this->headerParameterFactory->get($name);
@@ -59,12 +65,18 @@ class Compact implements SerializerInterface
 
     /**
      * @param string $payloadJson
+     *
      * @return Claim\ClaimInterface[]
+     * @throws \InvalidArgumentException
      */
     protected function parsePayload($payloadJson)
     {
         $claims = [];
         $payload = json_decode($payloadJson, true);
+
+        if (!is_array($payload)) {
+            throw new \InvalidArgumentException('Not a valid payload of JWT string passed for deserialization');
+        }
 
         foreach ($payload as $name => $value) {
             $claim = $this->claimFactory->get($name);
@@ -77,13 +89,19 @@ class Compact implements SerializerInterface
 
     /**
      * @param string $jwt
+     *
      * @return Token
+     * @throws \InvalidArgumentException
      */
     public function deserialize($jwt)
     {
         $token = new Token();
 
-        list($encodedHeader, $encodedPayload, $encodedSignature) = explode('.', $jwt);
+        if (empty($jwt)) {
+            throw new \InvalidArgumentException('Not a valid JWT string passed for deserialization');
+        }
+
+        list($encodedHeader, $encodedPayload, $encodedSignature) = array_pad(explode('.', $jwt, 3), 3, null);
 
         $decodedHeader    = $this->encoding->decode($encodedHeader);
         $decodedPayload   = $this->encoding->decode($encodedPayload);

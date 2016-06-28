@@ -113,6 +113,65 @@ class CompactTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('c', $token->getSignature());
     }
 
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Not a valid JWT string passed for deserialization
+     */
+    public function testDeserializationWithEmptyToken()
+    {
+        $token = '';
+        $this->serializer->deserialize($token);
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Not a valid header of JWT string passed for deserialization
+     */
+    public function testDeserializationTokenWithInvalidHeader()
+    {
+        $token = 'header.payload.signature';
+        $this->encoding->expects($this->at(0))
+            ->method('decode')
+            ->with('header')
+            ->will($this->returnValue('{"invalid"}'));
+
+        $this->serializer->deserialize($token);
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Not a valid payload of JWT string passed for deserialization
+     */
+    public function testDeserializationTokenWithInvalidPayload()
+    {
+        $token = 'header.payload.signature';
+        $this->encoding->expects($this->at(0))
+            ->method('decode')
+            ->with('header')
+            ->will($this->returnValue('{"header_field":"valid_header"}'));
+
+        $this->encoding->expects($this->at(1))
+            ->method('decode')
+            ->with('payload')
+            ->will($this->returnValue('{"invalid"}'));
+
+        $this->encoding->expects($this->at(2))
+            ->method('decode')
+            ->with('signature')
+            ->will($this->returnValue('{"signature_field":"valid_signature"}'));
+
+        $headerParameter = $this->getMockBuilder('Emarref\Jwt\HeaderParameter\Custom')
+            ->getMock();
+
+        $this->headerParameterFactory->expects($this->once())
+            ->method('get')
+            ->with('header_field')
+            ->will($this->returnValue($headerParameter));
+
+        $this->serializer->deserialize($token);
+    }
+
     public function testSerialize()
     {
         // Configure payload
