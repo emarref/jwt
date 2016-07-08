@@ -172,6 +172,37 @@ class CompactTest extends \PHPUnit_Framework_TestCase
         $this->serializer->deserialize($token);
     }
 
+    public function testDeserializationTokenWithoutSignature()
+    {
+        $token = 'header.payload';
+        $this->encoding->expects($this->at(0))
+            ->method('decode')
+            ->with('header')
+            ->will($this->returnValue('{"header_field":"valid_header"}'));
+
+        $this->encoding->expects($this->at(1))
+            ->method('decode')
+            ->with('payload')
+            ->will($this->returnValue('{}'));
+
+        $this->encoding->expects($this->at(2))
+            ->method('decode')
+            ->with(null)
+            ->will($this->returnValue(null));
+
+        $headerParameter = $this->getMockBuilder('Emarref\Jwt\HeaderParameter\Custom')
+            ->getMock();
+
+        $this->headerParameterFactory->expects($this->once())
+            ->method('get')
+            ->with('header_field')
+            ->will($this->returnValue($headerParameter));
+
+        $token = $this->serializer->deserialize($token);
+
+        $this->assertNull($token->getSignature());
+    }
+
     public function testSerialize()
     {
         // Configure payload
