@@ -7,12 +7,12 @@ use Emarref\Jwt\Claim;
 class SubjectVerifierTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Emarref\Jwt\Token\Payload
      */
     private $payload;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Emarref\Jwt\Token
      */
     private $token;
 
@@ -48,7 +48,7 @@ class SubjectVerifierTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Emarref\Jwt\Exception\VerificationException
+     * @expectedException \Emarref\Jwt\Exception\InvalidSubjectException
      * @expectedExceptionMessage Subject is invalid.
      */
     public function testSubjectInPayloadOnly()
@@ -74,7 +74,7 @@ class SubjectVerifierTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Emarref\Jwt\Exception\VerificationException
+     * @expectedException \Emarref\Jwt\Exception\InvalidSubjectException
      * @expectedExceptionMessage Subject is invalid.
      */
     public function testSubjectInContextOnly()
@@ -93,7 +93,7 @@ class SubjectVerifierTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Emarref\Jwt\Exception\VerificationException
+     * @expectedException \Emarref\Jwt\Exception\InvalidSubjectException
      * @expectedExceptionMessage Subject is invalid.
      */
     public function testSubjectMismatch()

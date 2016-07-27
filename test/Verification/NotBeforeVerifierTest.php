@@ -7,12 +7,12 @@ use Emarref\Jwt\Claim\NotBefore;
 class NotBeforeVerifierTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Emarref\Jwt\Token\Payload
      */
     private $payload;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Emarref\Jwt\Token
      */
     private $token;
 
@@ -45,7 +45,8 @@ class NotBeforeVerifierTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Emarref\Jwt\Exception\VerificationException
+     * @expectedException \Emarref\Jwt\Exception\TooEarlyException
+     * @expectedExceptionMessageRegExp /Token must not be processed before "[\w,:+\d ]+"/
      */
     public function testNotBefore()
     {

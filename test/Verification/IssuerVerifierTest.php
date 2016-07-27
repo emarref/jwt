@@ -7,12 +7,12 @@ use Emarref\Jwt\Claim;
 class IssuerVerifierTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Emarref\Jwt\Token\Payload
      */
     private $payload;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Emarref\Jwt\Token
      */
     private $token;
 
@@ -48,7 +48,7 @@ class IssuerVerifierTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Emarref\Jwt\Exception\VerificationException
+     * @expectedException \Emarref\Jwt\Exception\InvalidIssuerException
      * @expectedExceptionMessage Issuer is invalid.
      */
     public function testIssuerInPayloadOnly()
@@ -74,7 +74,7 @@ class IssuerVerifierTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Emarref\Jwt\Exception\VerificationException
+     * @expectedException \Emarref\Jwt\Exception\InvalidIssuerException
      * @expectedExceptionMessage Issuer is invalid.
      */
     public function testIssuerInContextOnly()
@@ -93,7 +93,7 @@ class IssuerVerifierTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Emarref\Jwt\Exception\VerificationException
+     * @expectedException \Emarref\Jwt\Exception\InvalidIssuerException
      * @expectedExceptionMessage Issuer is invalid.
      */
     public function testIssuerMismatch()

@@ -2,10 +2,9 @@
 
 namespace Emarref\Jwt\Verification;
 
-use Emarref\Jwt\Algorithm;
 use Emarref\Jwt\Encoding;
 use Emarref\Jwt\Encryption;
-use Emarref\Jwt\Exception\VerificationException;
+use Emarref\Jwt\Exception\InvalidSignatureException;
 use Emarref\Jwt\HeaderParameter;
 use Emarref\Jwt\Signature;
 use Emarref\Jwt\Token;
@@ -40,7 +39,7 @@ class EncryptionVerifier implements VerifierInterface
 
     /**
      * @param Token $token
-     * @throws VerificationException
+     * @throws InvalidSignatureException
      */
     public function verify(Token $token)
     {
@@ -60,7 +59,7 @@ class EncryptionVerifier implements VerifierInterface
         }
 
         if (!$this->encryption->verify($this->signer->getUnsignedValue($token), $token->getSignature())) {
-            throw new VerificationException('Signature is invalid.');
+            throw new InvalidSignatureException;
         }
     }
 }

@@ -5,12 +5,12 @@ namespace Emarref\Jwt\Verification;
 class ExpirationVerifierTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Emarref\Jwt\Token\Payload
      */
     private $payload;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Emarref\Jwt\Token
      */
     private $token;
 
@@ -42,7 +42,7 @@ class ExpirationVerifierTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Emarref\Jwt\Exception\VerificationException
+     * @expectedException \Emarref\Jwt\Exception\ExpiredException
      * @expectedExceptionMessage Token expired at "Sat, 08 Nov 2014 00:00:00 +0000"
      */
     public function testExpired()
