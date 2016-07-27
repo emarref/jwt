@@ -4,5 +4,8 @@ namespace Emarref\Jwt\Exception;
 
 class InvalidAudienceException extends VerificationException
 {
-    protected $message = 'Audience is invalid.';
+    public function __construct($message = 'Audience is invalid.', $code = 0, \Exception $previous = null)
+    {
+        parent::__construct($message, $code, $previous);
+    }
 }
