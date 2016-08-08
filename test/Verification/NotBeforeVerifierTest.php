@@ -46,6 +46,7 @@ class NotBeforeVerifierTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException Emarref\Jwt\Exception\VerificationException
+     * @expectedExceptionCode 6
      */
     public function testNotBefore()
     {

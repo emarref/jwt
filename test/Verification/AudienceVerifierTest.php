@@ -50,6 +50,7 @@ class AudienceVerifierTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException Emarref\Jwt\Exception\VerificationException
      * @expectedExceptionMessage Audience is invalid.
+     * @expectedExceptionCode 2
      */
     public function testInvalidAudienceInToken()
     {
