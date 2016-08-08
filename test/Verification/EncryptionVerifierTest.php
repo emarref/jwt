@@ -102,6 +102,7 @@ class EncryptionVerifierTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException Emarref\Jwt\Exception\VerificationException
      * @expectedExceptionMessage Signature is invalid.
+     * @expectedExceptionCode 1
      */
     public function testInvalidSignature()
     {

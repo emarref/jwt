@@ -3,9 +3,7 @@
 namespace Emarref\Jwt\Verification;
 
 use Emarref\Jwt\Claim;
-use Emarref\Jwt\Encoding;
 use Emarref\Jwt\Exception\VerificationException;
-use Emarref\Jwt\HeaderParameter;
 use Emarref\Jwt\Token;
 
 class AudienceVerifier implements VerifierInterface
@@ -43,7 +41,7 @@ class AudienceVerifier implements VerifierInterface
         }
 
         if (!in_array($this->audience, $audience, true)) {
-            throw new VerificationException('Audience is invalid.');
+            throw new VerificationException('Audience is invalid.', VerificationException::CODE_INVALID_AUDIENCE);
         }
     }
 }

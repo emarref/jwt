@@ -60,7 +60,7 @@ class EncryptionVerifier implements VerifierInterface
         }
 
         if (!$this->encryption->verify($this->signer->getUnsignedValue($token), $token->getSignature())) {
-            throw new VerificationException('Signature is invalid.');
+            throw new VerificationException('Signature is invalid.', VerificationException::CODE_INVALID_SIGNATURE);
         }
     }
 }

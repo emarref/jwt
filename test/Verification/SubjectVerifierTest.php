@@ -50,6 +50,7 @@ class SubjectVerifierTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException Emarref\Jwt\Exception\VerificationException
      * @expectedExceptionMessage Subject is invalid.
+     * @expectedExceptionCode 5
      */
     public function testSubjectInPayloadOnly()
     {
@@ -76,6 +77,7 @@ class SubjectVerifierTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException Emarref\Jwt\Exception\VerificationException
      * @expectedExceptionMessage Subject is invalid.
+     * @expectedExceptionCode 5
      */
     public function testSubjectInContextOnly()
     {
@@ -95,6 +97,7 @@ class SubjectVerifierTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException Emarref\Jwt\Exception\VerificationException
      * @expectedExceptionMessage Subject is invalid.
+     * @expectedExceptionCode 5
      */
     public function testSubjectMismatch()
     {

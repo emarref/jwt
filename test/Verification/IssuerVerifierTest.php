@@ -50,6 +50,7 @@ class IssuerVerifierTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException Emarref\Jwt\Exception\VerificationException
      * @expectedExceptionMessage Issuer is invalid.
+     * @expectedExceptionCode 4
      */
     public function testIssuerInPayloadOnly()
     {
@@ -76,6 +77,7 @@ class IssuerVerifierTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException Emarref\Jwt\Exception\VerificationException
      * @expectedExceptionMessage Issuer is invalid.
+     * @expectedExceptionCode 4
      */
     public function testIssuerInContextOnly()
     {
@@ -95,6 +97,7 @@ class IssuerVerifierTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException Emarref\Jwt\Exception\VerificationException
      * @expectedExceptionMessage Issuer is invalid.
+     * @expectedExceptionCode 4
      */
     public function testIssuerMismatch()
     {

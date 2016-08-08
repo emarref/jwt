@@ -44,6 +44,7 @@ class ExpirationVerifierTest extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException Emarref\Jwt\Exception\VerificationException
      * @expectedExceptionMessage Token expired at "Sat, 08 Nov 2014 00:00:00 +0000"
+     * @expectedExceptionCode 3
      */
     public function testExpired()
     {

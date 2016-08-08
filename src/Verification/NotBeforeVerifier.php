@@ -31,7 +31,7 @@ class NotBeforeVerifier implements VerifierInterface
         if ($now->getTimestamp() < $notBeforeClaim->getValue()) {
             $notBefore = new \DateTime();
             $notBefore->setTimestamp($notBeforeClaim->getValue());
-            throw new VerificationException(sprintf('Token must not be processed before "%s"', $notBefore->format('r')));
+            throw new VerificationException(sprintf('Token must not be processed before "%s"', $notBefore->format('r')), VerificationException::CODE_INVALID_NOT_BEFORE);
         }
     }
 }
