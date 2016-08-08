@@ -39,7 +39,7 @@ class SubjectVerifier implements VerifierInterface
         $subject = (null === $subjectClaim) ? null : $subjectClaim->getValue();
 
         if ($this->subject !== $subject) {
-            throw new VerificationException('Subject is invalid.');
+            throw new VerificationException('Subject is invalid.', VerificationException::CODE_INVALID_SUBJECT);
         }
     }
 }

@@ -39,7 +39,7 @@ class IssuerVerifier implements VerifierInterface
         $issuer = (null === $issuerClaim) ? null : $issuerClaim->getValue();
 
         if ($this->issuer !== $issuer) {
-            throw new VerificationException('Issuer is invalid.');
+            throw new VerificationException('Issuer is invalid.', VerificationException::CODE_INVALID_ISSUER);
         }
     }
 }

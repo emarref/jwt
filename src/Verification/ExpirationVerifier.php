@@ -42,7 +42,7 @@ class ExpirationVerifier implements VerifierInterface
 
         if ($now->getTimestamp() > $expirationClaim->getValue()) {
             $expiration = $this->getDateTimeFromClaim($expirationClaim);
-            throw new VerificationException(sprintf('Token expired at "%s"', $expiration->format('r')));
+            throw new VerificationException(sprintf('Token expired at "%s"', $expiration->format('r')), VerificationException::CODE_EXPIRED);
         }
     }
 }
