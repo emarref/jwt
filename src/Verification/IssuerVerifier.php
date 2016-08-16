@@ -3,9 +3,7 @@
 namespace Emarref\Jwt\Verification;
 
 use Emarref\Jwt\Claim;
-use Emarref\Jwt\Encoding;
-use Emarref\Jwt\Exception\VerificationException;
-use Emarref\Jwt\HeaderParameter;
+use Emarref\Jwt\Exception\InvalidIssuerException;
 use Emarref\Jwt\Token;
 
 class IssuerVerifier implements VerifierInterface
@@ -29,7 +27,7 @@ class IssuerVerifier implements VerifierInterface
 
     /**
      * @param Token $token
-     * @throws VerificationException
+     * @throws InvalidIssuerException
      */
     public function verify(Token $token)
     {
@@ -39,7 +37,7 @@ class IssuerVerifier implements VerifierInterface
         $issuer = (null === $issuerClaim) ? null : $issuerClaim->getValue();
 
         if ($this->issuer !== $issuer) {
-            throw new VerificationException('Issuer is invalid.');
+            throw new InvalidIssuerException;
         }
     }
 }

@@ -3,9 +3,7 @@
 namespace Emarref\Jwt\Verification;
 
 use Emarref\Jwt\Claim;
-use Emarref\Jwt\Encoding;
-use Emarref\Jwt\Exception\VerificationException;
-use Emarref\Jwt\HeaderParameter;
+use Emarref\Jwt\Exception\ExpiredException;
 use Emarref\Jwt\Token;
 
 class ExpirationVerifier implements VerifierInterface
@@ -42,7 +40,7 @@ class ExpirationVerifier implements VerifierInterface
 
         if ($now->getTimestamp() > $expirationClaim->getValue()) {
             $expiration = $this->getDateTimeFromClaim($expirationClaim);
-            throw new VerificationException(sprintf('Token expired at "%s"', $expiration->format('r')));
+            throw new ExpiredException($expiration);
         }
     }
 }

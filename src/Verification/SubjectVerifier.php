@@ -3,9 +3,7 @@
 namespace Emarref\Jwt\Verification;
 
 use Emarref\Jwt\Claim;
-use Emarref\Jwt\Encoding;
-use Emarref\Jwt\Exception\VerificationException;
-use Emarref\Jwt\HeaderParameter;
+use Emarref\Jwt\Exception\InvalidSubjectException;
 use Emarref\Jwt\Token;
 
 class SubjectVerifier implements VerifierInterface
@@ -29,7 +27,7 @@ class SubjectVerifier implements VerifierInterface
 
     /**
      * @param Token $token
-     * @throws VerificationException
+     * @throws InvalidSubjectException
      */
     public function verify(Token $token)
     {
@@ -39,7 +37,7 @@ class SubjectVerifier implements VerifierInterface
         $subject = (null === $subjectClaim) ? null : $subjectClaim->getValue();
 
         if ($this->subject !== $subject) {
-            throw new VerificationException('Subject is invalid.');
+            throw new InvalidSubjectException;
         }
     }
 }

@@ -3,9 +3,7 @@
 namespace Emarref\Jwt\Verification;
 
 use Emarref\Jwt\Claim;
-use Emarref\Jwt\Encoding;
-use Emarref\Jwt\Exception\VerificationException;
-use Emarref\Jwt\HeaderParameter;
+use Emarref\Jwt\Exception\TooEarlyException;
 use Emarref\Jwt\Token;
 
 class NotBeforeVerifier implements VerifierInterface
@@ -31,7 +29,7 @@ class NotBeforeVerifier implements VerifierInterface
         if ($now->getTimestamp() < $notBeforeClaim->getValue()) {
             $notBefore = new \DateTime();
             $notBefore->setTimestamp($notBeforeClaim->getValue());
-            throw new VerificationException(sprintf('Token must not be processed before "%s"', $notBefore->format('r')));
+            throw new TooEarlyException($notBefore);
         }
     }
 }

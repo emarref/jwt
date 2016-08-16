@@ -7,12 +7,12 @@ use Emarref\Jwt\Claim;
 class AudienceVerifierTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Emarref\Jwt\Token\Payload
      */
     private $payload;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Emarref\Jwt\Token
      */
     private $token;
 
@@ -48,7 +48,7 @@ class AudienceVerifierTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Emarref\Jwt\Exception\VerificationException
+     * @expectedException \Emarref\Jwt\Exception\InvalidAudienceException
      * @expectedExceptionMessage Audience is invalid.
      */
     public function testInvalidAudienceInToken()
