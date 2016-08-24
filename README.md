@@ -67,6 +67,8 @@ $encryption = Emarref\Jwt\Encryption\Factory::create($algorithm);
 $serializedToken = $jwt->serialize($token, $encryption);
 ```
 
+An example of using Rs256 encryption with a key pair can be found in the wiki - [Using RS256 Encryption](https://github.com/emarref/jwt/wiki/Using-RS256-Encryption).
+
 To use a serialized token, first deserialize it into a `Emarref\Jwt\Token` object using a `Jwt` instance.
 
 ```php
