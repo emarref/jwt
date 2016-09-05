@@ -14,7 +14,9 @@ Features include:
     - `RS256`, `RS384`, `RS512` algorithms supported
     - `ES256`, `ES384`, `ES512`, `PS256`, `PS384`, `PS512` algorithms are planned
 
-This library is not susceptible to the [recently discussed encryption vulnerability](https://auth0.com/blog/2015/03/31/critical-vulnerabilities-in-json-web-token-libraries/).
+> :warning: Versions of this library up to and including v1.0.2 are susceptible to timing attacks when using Symetric encryption. See #20 for more information. Please update to >= v1.0.3 as soon as possible to address this vulnerability.
+
+This library is not susceptible to a common [encryption vulnerability](https://auth0.com/blog/2015/03/31/critical-vulnerabilities-in-json-web-token-libraries/).
 
 ## Installation
 
