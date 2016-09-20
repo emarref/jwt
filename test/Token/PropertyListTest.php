@@ -36,7 +36,7 @@ class PropertyListTest extends \PHPUnit_Framework_TestCase
 
     public function testJsonSerialize()
     {
-        $expectedJson = '{"one":"11","two":"2"}';
+        $expectedJson = '{"one":"11","two":"2","url":"https://example.com"}';
 
         $properties = new \ArrayIterator([
             new PropertyStub('one', '1'),
@@ -44,6 +44,7 @@ class PropertyListTest extends \PHPUnit_Framework_TestCase
             new PropertyStub('two', '2'),
             new PropertyStub('three', ''), // Blank value ignored
             new PropertyStub('', '4'),     // Blank name ignored
+            new PropertyStub('url', 'https://example.com'),
         ]);
 
         $this->properties->expects($this->once())

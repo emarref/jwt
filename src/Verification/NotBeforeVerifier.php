@@ -27,8 +27,7 @@ class NotBeforeVerifier implements VerifierInterface
         }
 
         if ($now->getTimestamp() < $notBeforeClaim->getValue()) {
-            $notBefore = new \DateTime();
-            $notBefore->setTimestamp($notBeforeClaim->getValue());
+            $notBefore = \DateTime::createFromFormat('U', $notBeforeClaim->getValue(), new \DateTimeZone('UTC'));
             throw new TooEarlyException($notBefore);
         }
     }
