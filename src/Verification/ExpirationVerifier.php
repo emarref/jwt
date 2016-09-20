@@ -22,8 +22,7 @@ class ExpirationVerifier implements VerifierInterface
             ));
         }
 
-        $expiration = new \DateTime();
-        $expiration->setTimestamp($expirationClaim->getValue());
+        $expiration = \DateTime::createFromFormat('U', $expirationClaim->getValue(), new \DateTimeZone('UTC'));
         return $expiration;
     }
 
