@@ -9,9 +9,18 @@ class PropertyList implements \JsonSerializable, \IteratorAggregate
      */
     protected $properties;
 
-    public function __construct()
+    /**
+     * @var int
+     */
+    private $jsonOptions;
+
+    /**
+     * @param int|null $jsonOptions Options to be passed to the json_encode function.
+     */
+    public function __construct($jsonOptions = null)
     {
         $this->properties = new \ArrayObject();
+        $this->jsonOptions = $jsonOptions;
     }
 
     /**
@@ -40,7 +49,7 @@ class PropertyList implements \JsonSerializable, \IteratorAggregate
             $properties->$name = $value;
         }
 
-        return json_encode($properties);
+        return json_encode($properties, $this->jsonOptions);
     }
 
     /**
