@@ -3,20 +3,9 @@
 namespace Emarref\Jwt\Token;
 
 use Emarref\Jwt\HeaderParameter;
-use Emarref\Jwt\Claim;
 
-class Header implements \JsonSerializable
+class Header extends AbstractTokenBody
 {
-    /**
-     * @var PropertyList
-     */
-    protected $propertyList;
-
-    public function __construct()
-    {
-        $this->propertyList = new PropertyList();
-    }
-
     /**
      * @param HeaderParameter\ParameterInterface $parameter
      * @param boolean                            $critical
@@ -60,13 +49,5 @@ class Header implements \JsonSerializable
     public function getParameters()
     {
         return $this->propertyList;
-    }
-
-    /**
-     * @return string
-     */
-    public function jsonSerialize()
-    {
-        return $this->propertyList->jsonSerialize();
     }
 }

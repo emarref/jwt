@@ -4,18 +4,8 @@ namespace Emarref\Jwt\Token;
 
 use Emarref\Jwt\Claim;
 
-class Payload implements \JsonSerializable
+class Payload extends AbstractTokenBody
 {
-    /**
-     * @var PropertyList
-     */
-    protected $propertyList;
-
-    public function __construct()
-    {
-        $this->propertyList = new PropertyList();
-    }
-
     /**
      * @param Claim\ClaimInterface $claim
      */
@@ -46,13 +36,5 @@ class Payload implements \JsonSerializable
     public function getClaims()
     {
         return $this->propertyList;
-    }
-
-    /**
-     * @return string
-     */
-    public function jsonSerialize()
-    {
-        return $this->propertyList->jsonSerialize();
     }
 }
