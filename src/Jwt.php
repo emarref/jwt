@@ -37,11 +37,12 @@ class Jwt
 
     /**
      * @param string $jwt
+     * @param array $tokenOptions
      * @return Token
      */
-    public function deserialize($jwt)
+    public function deserialize($jwt, array $tokenOptions = [])
     {
-        return $this->serialization->deserialize($jwt);
+        return $this->serialization->deserialize($jwt, $tokenOptions);
     }
 
     /**
