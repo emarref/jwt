@@ -4,11 +4,14 @@ namespace Emarref\Jwt;
 
 use Emarref\Jwt\Claim;
 use Emarref\Jwt\HeaderParameter;
+use Emarref\Jwt\Token\AbstractTokenBody;
 use Emarref\Jwt\Token\Header;
 use Emarref\Jwt\Token\Payload;
 
 class Token
 {
+    const OPT_JSON_ESCAPE_SLASHES = 'json_escape_slashes';
+
     /**
      * @var Header
      */
@@ -24,10 +27,44 @@ class Token
      */
     private $signature;
 
-    public function __construct()
+    /**
+     * @param array $options
+     */
+    public function __construct(array $options = [])
     {
-        $this->header  = new Header();
-        $this->payload = new Payload();
+        $options = $this->parseOptions($options);
+
+        $sectionOptions = [];
+
+        if (false === (bool)$options[self::OPT_JSON_ESCAPE_SLASHES]) {
+            $sectionOptions = [
+                AbstractTokenBody::OPT_JSON_OPTIONS => JSON_UNESCAPED_SLASHES
+            ];
+        }
+
+        $this->header  = new Header($sectionOptions);
+        $this->payload = new Payload($sectionOptions);
+    }
+
+    /**
+     * @param array $options
+     * @return array
+     */
+    protected function parseOptions(array $options)
+    {
+        $defaultOptions = $this->getDefaultOptions();
+
+        return array_merge($defaultOptions, $options);
+    }
+
+    /**
+     * @return array
+     */
+    protected function getDefaultOptions()
+    {
+        return [
+            self::OPT_JSON_ESCAPE_SLASHES => false,
+        ];
     }
 
     /**

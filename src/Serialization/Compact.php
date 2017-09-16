@@ -89,13 +89,12 @@ class Compact implements SerializerInterface
 
     /**
      * @param string $jwt
-     *
+     * @param array $tokenOptions
      * @return Token
-     * @throws \InvalidArgumentException
      */
-    public function deserialize($jwt)
+    public function deserialize($jwt, array $tokenOptions = [])
     {
-        $token = new Token();
+        $token = new Token($tokenOptions);
 
         if (empty($jwt)) {
             throw new \InvalidArgumentException('Not a valid JWT string passed for deserialization');

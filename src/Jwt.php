@@ -19,24 +19,30 @@ class Jwt
      */
     private $encoder;
 
+    /**
+     * @var Serialization\SerializerInterface
+     */
+    private $serialization;
+
     public function __construct()
     {
         $this->encoder = new Encoding\Base64();
-    }
 
-    /**
-     * @param string $jwt
-     * @return Token
-     */
-    public function deserialize($jwt)
-    {
-        $serialization = new Serialization\Compact(
+        $this->serialization = new Serialization\Compact(
             $this->encoder,
             new HeaderParameter\Factory(),
             new Claim\Factory()
         );
+    }
 
-        return $serialization->deserialize($jwt);
+    /**
+     * @param string $jwt
+     * @param array $tokenOptions
+     * @return Token
+     */
+    public function deserialize($jwt, array $tokenOptions = [])
+    {
+        return $this->serialization->deserialize($jwt, $tokenOptions);
     }
 
     /**
@@ -48,13 +54,7 @@ class Jwt
     {
         $this->sign($token, $encryption);
 
-        $serialization = new Serialization\Compact(
-            $this->encoder,
-            new HeaderParameter\Factory(),
-            new Claim\Factory()
-        );
-
-        return $serialization->serialize($token);
+        return $this->serialization->serialize($token);
     }
 
     /**
