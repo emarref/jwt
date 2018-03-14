@@ -24,6 +24,11 @@ class Token
      */
     private $signature;
 
+    /**
+     * @var tokenBody
+     */
+    private $tokenBody;
+
     public function __construct()
     {
         $this->header  = new Header();
@@ -77,5 +82,21 @@ class Token
     public function setSignature($signature)
     {
         $this->signature = $signature;
+    }
+
+    /**
+     * @param string $body
+     */
+    public function setTokenBody($body)
+    {
+       $this->tokenBody = $body;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTokenBody()
+    {
+       return $this->tokenBody;
     }
 }

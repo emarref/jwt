@@ -103,6 +103,11 @@ class Compact implements SerializerInterface
 
         list($encodedHeader, $encodedPayload, $encodedSignature) = array_pad(explode('.', $jwt, 3), 3, null);
 
+        // Store the encoded unsigned value for verification later. We do this because JSON can change order or spacing and such and
+        // and still have the same value. However, the signature algorithms don't handle that concept. So we keep the original value
+        // to use to verify the signature.
+        $token->setTokenBody($encodedHeader . "." . $encodedPayload);
+
         $decodedHeader    = $this->encoding->decode($encodedHeader);
         $decodedPayload   = $this->encoding->decode($encodedPayload);
         $decodedSignature = $this->encoding->decode($encodedSignature);
