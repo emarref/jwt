@@ -40,7 +40,7 @@ class PropertyList implements \JsonSerializable, \IteratorAggregate
             $properties->$name = $value;
         }
 
-        return json_encode($properties, JSON_UNESCAPED_UNICODE);
+        return json_encode($properties, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     }
 
     /**
